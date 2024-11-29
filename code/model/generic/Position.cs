@@ -32,4 +32,9 @@ public struct Position {
     public static Position operator / (Position p, long n) {
         return new(p.X / n, p.Y / n);
     }
+
+    public override string ToString()
+    {
+        return $"Position{{X={X}, Y={Y}}}";
+    }
 };

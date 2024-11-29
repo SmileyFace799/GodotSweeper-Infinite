@@ -17,7 +17,9 @@ public class Utils {
 
     public static Vector2I GetAtlasCoords(SquareModel square) {
         Vector2I atlasCoords;
-		if (!square.Opened) {
+        if (square.Flagged) {
+            atlasCoords = GetAtlasCoords(TileName.FLAGGED);
+        } else if (!square.Opened) {
 			atlasCoords = GetAtlasCoords(TileName.HIDDEN);
 		} else if (square is NumberSquareModel numberSquare) {
 			atlasCoords = GetAtlasCoords(numberSquare.Type, numberSquare.Number);

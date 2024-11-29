@@ -6,7 +6,7 @@ using System.Linq;
 /// </summary>
 public class NumberSquareType : SquareType {
     public static readonly NumberSquareType DEFAULT = new(
-        1,
+        2,
         new(-1, -1),
         new(0, -1),
         new(1, -1),

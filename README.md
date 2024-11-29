@@ -76,6 +76,14 @@ It does not cover standard Minesweeper mechanics, as those are implicitly includ
         ..O..
         X...X
         .X.X.
+</li><li>Star square: ❌
+
+        X...X
+        ..X..
+        .XOX.
+        ..X..
+        X...X
+
 </li><li>Distant square: ❌
 
         X.X.X
