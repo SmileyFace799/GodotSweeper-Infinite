@@ -2,21 +2,27 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-public class Board {
-    public static readonly double SPECIAL_BAD_CHANCE = 0.2;
+public class BoardModel {
+    public static readonly double SPECIAL_BAD_CHANCE = 0.15;
     public static readonly double SPECIAL_GOOD_CHANCE = 0.002;
 
     private readonly Random _random = new();
-    private Dictionary<long, Dictionary<long, Square>> _squares = new();
+    private Dictionary<long, Dictionary<long, SquareModel>> _squares = new();
 
-    public HashSet<Square> Squares() {
+    public BoardUpdateListener Listener {get; set;}
+
+    public HashSet<SquareModel> Squares() {
         return _squares.Values.SelectMany(v => v.Values).ToHashSet();
     }
 
-    public Square GetSquare(Position position) {
-        Square square = null;
+    public bool hasSquare(Position position) {
+        return _squares.Keys.Contains(position.X) && _squares[position.X].Keys.Contains(position.Y);
+    }
+
+    public SquareModel GetSquare(Position position) {
+        SquareModel square = null;
         if (_squares.Keys.Contains(position.X)) {
-            Dictionary<long, Square> column = _squares[position.X];
+            Dictionary<long, SquareModel> column = _squares[position.X];
             if (column.Keys.Contains(position.Y)) {
                 square = column[position.Y];
             }
@@ -36,54 +42,63 @@ public class Board {
     /// <param name="specialGoodOverride">If the chance of generating a good special square should be overriden for this reveal.
     /// Will not apply to revealed cascading squares</param>
     public void RevealSquare(Position position, double specialBadOverride=-1, double specialGoodOverride=-1) {
-        RevealSquare(position, 50, specialBadOverride);
+        RevealSquare(position, 50, specialBadOverride, specialBadOverride);
     }
 
-    private void RevealSquare(Position position, int cascadeLimit, double mineChanceOverride=-1, double specialGoodOverride=-1) {
-        if (mineChanceOverride == -1) {
-            mineChanceOverride = SPECIAL_BAD_CHANCE;
+    private void RevealSquare(Position position, int cascadeLimit, double specialBadOverride=-1, double specialGoodOverride=-1) {
+        if (specialBadOverride == -1) {
+            specialBadOverride = SPECIAL_BAD_CHANCE;
         }
 
-        Square squareToReveal = GetSquare(position);
-        if (squareToReveal.Opened || squareToReveal.Flagged) {
+        if (specialGoodOverride == -1) {
+            specialGoodOverride = SPECIAL_GOOD_CHANCE;
+        }
+
+        SquareModel squareToReveal = GetSquare(position);
+        if (squareToReveal == null) {
+            squareToReveal = GenerateSquare();
+            placeSquare(position, squareToReveal);
+        } else if (squareToReveal.Opened || squareToReveal.Flagged) {
             throw new InvalidOperationException($"Square at ({position.X}, {position.Y}) is already {(squareToReveal.Opened ? "opened" : "flagged")}");
         }
-        if (squareToReveal is SpecialSquare specialSquare) {
+        if (squareToReveal is SpecialSquareModel specialSquare) {
             specialSquare.Open();
-        } else if (squareToReveal is NumberSquare numberSquare) {
-            HashSet<Square> coveredSquares = numberSquare.Type.RelativeCoverage.Select(p => {
+            Listener.OnSquareUpdated(position, squareToReveal);
+        } else if (squareToReveal is NumberSquareModel numberSquare) {
+            HashSet<SquareModel> coveredSquares = numberSquare.Type.RelativeCoverage.Select(p => {
                 Position coveredPosition = position + p;
-                Square coveredSquare = GetSquare(coveredPosition);
+                SquareModel coveredSquare = GetSquare(coveredPosition);
                 if (coveredSquare == null) {
                     coveredSquare = GenerateSquare();
                     placeSquare(coveredPosition, coveredSquare);
+                    Listener.OnSquareUpdated(coveredPosition, coveredSquare);
                 }
                 return coveredSquare;
             }).ToHashSet();
-            int number = coveredSquares.Where(s => s is SpecialSquare specialSquare && specialSquare.Type.IsBad).Count();
+            int number = coveredSquares.Where(s => s is SpecialSquareModel specialSquare && specialSquare.Type.IsBad).Count();
             numberSquare.Number = number;
-
+            Listener.OnSquareUpdated(position, squareToReveal);
 
         } else {
             throw new InvalidOperationException($"Square at ({position.X}, {position.Y}) is of an unknown type, cannot open it");
         }
     }
 
-    public Square GenerateSquare() {
-        Square generatedSquare;
+    public SquareModel GenerateSquare() {
+        SquareModel generatedSquare;
         double randomNum = _random.NextDouble();
         if (randomNum < SPECIAL_BAD_CHANCE) {
-            generatedSquare = new SpecialSquare(SpecialSquareType.GetRandomBad());
+            generatedSquare = new SpecialSquareModel(SpecialSquareType.GetRandomBad());
         } else if (randomNum - SPECIAL_BAD_CHANCE < SPECIAL_GOOD_CHANCE) {
-            generatedSquare = new SpecialSquare(SpecialSquareType.GetRandomGood());
+            generatedSquare = new SpecialSquareModel(SpecialSquareType.GetRandomGood());
         } else {
-            generatedSquare = new NumberSquare(NumberSquareType.GetRandom());
+            generatedSquare = new NumberSquareModel(NumberSquareType.GetRandom());
         }
         return generatedSquare;
     }
 
-    public void placeSquare(Position position, Square square) {
-        Dictionary<long, Square> column;
+    public void placeSquare(Position position, SquareModel square) {
+        Dictionary<long, SquareModel> column;
         if (_squares.Keys.Contains(position.X)) {
             column = _squares[position.X];
         } else {

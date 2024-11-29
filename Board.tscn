@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://btmx6d07mv7bs"]
+
+[ext_resource type="TileSet" uid="uid://fsx3m3tk5k60" path="res://textures/Squares.tres" id="1_4dq71"]
+[ext_resource type="Script" path="res://code/scripts/Board.cs" id="2_cdlxr"]
+
+[node name="Board" type="TileMap"]
+tile_set = ExtResource("1_4dq71")
+format = 2
+script = ExtResource("2_cdlxr")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+anchor_mode = 0
+zoom = Vector2(2, 2)

@@ -1,6 +1,6 @@
 using System;
 
-public class NumberSquare : Square {
+public class NumberSquareModel : SquareModel {
     private int _number = -1;
 
     public override bool Opened { get {
@@ -25,9 +25,9 @@ public class NumberSquare : Square {
         _number = value;
     }}
 
-    public NumberSquareType Type {get;}
+    public override NumberSquareType Type {get;}
 
-    public NumberSquare(NumberSquareType type) {
+    public NumberSquareModel(NumberSquareType type) {
         Type = type;
     }
 

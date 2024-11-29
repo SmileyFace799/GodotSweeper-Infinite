@@ -1,13 +1,13 @@
-public class SpecialSquare : Square {
+public class SpecialSquareModel : SquareModel {
     private bool _opened = false;
 
     public override bool Opened { get {
         return _opened;
     }}
 
-    public SpecialSquareType Type {get;}
+    public override SpecialSquareType Type {get;}
 
-    public SpecialSquare(SpecialSquareType type) {
+    public SpecialSquareModel(SpecialSquareType type) {
         Type = type;
     }
 
