@@ -10,7 +10,7 @@
 <p><b>List of goals (within deadline):</b>
 <ol>
     <li>Create a runnable project with core Minesweeper gameplay: ✅</li>
-    <li>Create a playable infinite Minesweeper game: ❌</li>
+    <li>Create a playable infinite Minesweeper game: ✅</li>
     <li>Add simple roguelike elements to the game: ❌</li>
     <li>Playtesting & bugtesting, finished & playable MVP created: ❌</li>
 </ol></p>
@@ -50,7 +50,9 @@ It does not cover standard Minesweeper mechanics, as those are implicitly includ
         ..X..
 </li>
     </ul></li>
+    <li>Save & load functionality, persistent storage: ❌</li>
     <li>Upgrades that persist between games: ❌</li>
+    <li>Movable & Zoomable camera: ✅</li>
     <li>Basic functional UI: ❌<ul>
         <li>Main Menu / Title screen: ❌</li>
         <li>Pause screen: ❌</li>

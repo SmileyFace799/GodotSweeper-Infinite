@@ -4,8 +4,8 @@ using System.Linq;
 using Godot;
 
 public class BoardModel {
-    public const double SPECIAL_BAD_CHANCE = 0.2;
-    public const double SPECIAL_GOOD_CHANCE = 0.002;
+    public const double SPECIAL_BAD_CHANCE = 0.25;
+    public const double SPECIAL_GOOD_CHANCE = 0.00;
     public const int CASCADE_LIMIT = 50;
 
     private readonly Random _random = new();

@@ -9,5 +9,4 @@ format = 2
 script = ExtResource("2_cdlxr")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-anchor_mode = 0
 zoom = Vector2(2, 2)
