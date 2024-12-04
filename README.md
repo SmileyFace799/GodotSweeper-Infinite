@@ -50,9 +50,9 @@ It does not cover standard Minesweeper mechanics, as those are implicitly includ
         ..X..
 </li>
     </ul></li>
-    <li>Save & load functionality, persistent storage: ❌</li>
+    <li>Save & load functionality, persistent storage: ✅</li>
     <li>Upgrades that persist between games: ❌</li>
-    <li>Movable & Zoomable camera: ✅</li>
+    <li>Movable & zoomable camera: ✅</li>
     <li>Basic functional UI: ❌<ul>
         <li>Main Menu / Title screen: ❌</li>
         <li>Pause screen: ❌</li>

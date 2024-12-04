@@ -33,8 +33,7 @@ public struct Position {
         return new(p.X / n, p.Y / n);
     }
 
-    public override string ToString()
-    {
+    public override string ToString(){
         return $"Position{{X={X}, Y={Y}}}";
     }
 };

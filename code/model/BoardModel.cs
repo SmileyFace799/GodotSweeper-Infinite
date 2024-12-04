@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
-using Godot;
 
 public class BoardModel {
     public const double SPECIAL_BAD_CHANCE = 0.25;
@@ -9,17 +9,74 @@ public class BoardModel {
     public const int CASCADE_LIMIT = 50;
 
     private readonly Random _random = new();
-    private Dictionary<long, Dictionary<long, SquareModel>> _squares = new();
+    private readonly Dictionary<long, Dictionary<long, SquareModel>> _squares;
 
-    public BoardUpdateListener Listener {get; set;}
+    public BoardUpdateListener GuiListener {get; set;}
+
+    public BoardModel() {
+        _squares = new();
+    }
+
+    public BoardModel(Dictionary<long, Dictionary<long, SquareModel>> squares) {
+        _squares = squares;
+    }
 
     public HashSet<SquareModel> Squares() {
         return _squares.Values.SelectMany(v => v.Values).ToHashSet();
     }
 
+    private void placeSquare(Position position, SquareModel square) {
+        Dictionary<long, SquareModel> column;
+        if (_squares.ContainsKey(position.X)) {
+            column = _squares[position.X];
+        } else {
+            column = new();
+            _squares[position.X] = column;
+        }
+        if (column.ContainsKey(position.Y)) {
+            throw new ArgumentException($"There is already a square at ({position.X}, {position.Y})");
+        }
+        column[position.Y] = square;
+    }
+
     public bool HasSquare(Position position) {
         return _squares.ContainsKey(position.X) && _squares[position.X].ContainsKey(position.Y);
     }
+
+    /// <summary>
+	/// Utility function to check if a square at a specified position satisfies a specified condition.
+	/// </summary>
+	/// <param name="position">The position of the square to check</param>
+	/// <param name="ifNotFound">The default result if the square doesn't exist</param>
+	/// <param name="checker">The condition to check if the square exists</param>
+	/// <returns>If the condition is satisfied or not, or the default result if the square didn't exist</returns>
+	private bool SquareState(Position position, bool ifNotFound, Func<SquareModel, bool> checker) {
+		bool state = HasSquare(position) ^ ifNotFound;
+		if (state ^ ifNotFound) { // Can only enter if HasSquare returns true
+			state = checker(GetSquare(position));
+		}
+		return state;
+	}
+
+	/// <summary>
+	/// Checks if a square can be revealed at a specified position.
+	/// </summary>
+	/// <param name="position">The position to check</param>
+	/// <returns>If a square can be revealed at the specified position</returns>
+	public bool IsRevealable(Position position) => SquareState(position, true, s => !s.Flagged && !s.Opened);
+	/// <summary>
+	/// Checks if a square can be flagged at a specified position.
+	/// </summary>
+	/// <param name="position">The position to check</param>
+	/// <returns>If a square can be flagged at the specified position</returns>
+	public bool IsFlaggable(Position position) => SquareState(position, false, s => !s.Opened);
+	/// <summary>
+	/// Checks if a square can be "smart revealed" at a specified position.<br/>
+	/// "Smart revealing" refers to revealing a number square's covered squares if its number equals the number of covered squares that are flagged.
+	/// </summary>
+	/// <param name="position">The position to check</param>
+	/// <returns>If a square can be "smart revealed" at the specified position</returns>
+	public bool IsSmartRevealable(Position position) => SquareState(position, false, s => s.Opened && s is NumberSquareModel);
 
     public SquareModel GetSquare(Position position) {
         SquareModel square = null;
@@ -30,6 +87,10 @@ public class BoardModel {
             }
         }
         return square;
+    }
+
+    public ReadOnlyDictionary<long, Dictionary<long, SquareModel>> GetSquares() {
+        return new(_squares);
     }
 
     private SquareModel GenerateSquare(double specialBadChance, double specialGoodChance) {
@@ -78,7 +139,7 @@ public class BoardModel {
             throw new InvalidOperationException($"Square at ({position.X}, {position.Y}) is already opened, can't place flag");
         }
         squareToFlag.ToggleFlagged();
-        Listener.OnSquareUpdated(position, squareToFlag);
+        GuiListener.OnSquareUpdated(position, squareToFlag);
     }
 
     public void RevealSquare(Position position) {
@@ -109,12 +170,12 @@ public class BoardModel {
         foreach ((Position position, SquareModel squareToReveal) in squaresToReveal) {
             if (squareToReveal is SpecialSquareModel specialSquare) {
                 specialSquare.Open();
-                Listener.OnSquareUpdated(position, squareToReveal);
+                GuiListener.OnSquareUpdated(position, squareToReveal);
             } else if (squareToReveal is NumberSquareModel numberSquare) {
                 Dictionary<Position, SquareModel> coveredSquares = GetOrGenerateCoveredSquares(position, numberSquare.Type, specialBadChance, specialGoodChance);
                 int number = coveredSquares.Values.Where(s => s is SpecialSquareModel specialSquare && specialSquare.Type.IsBad).Count();
                 numberSquare.Number = number;
-                Listener.OnSquareUpdated(position, squareToReveal);
+                GuiListener.OnSquareUpdated(position, squareToReveal);
 
                 if (number == 0 && cascadeLimit > 0) {
                     foreach ((Position p, SquareModel coveredSquare) in coveredSquares) {
@@ -124,7 +185,7 @@ public class BoardModel {
                     }
                 } else {
                     foreach ((Position p, SquareModel coveredSquare) in coveredSquares) {
-                        Listener.OnSquareUpdated(p, coveredSquare);
+                        GuiListener.OnSquareUpdated(p, coveredSquare);
                     }
                 }
 
@@ -135,19 +196,5 @@ public class BoardModel {
         if (cascadingSquares.Any()) {
             RevealSquares(cascadingSquares, --cascadeLimit, SPECIAL_BAD_CHANCE, SPECIAL_GOOD_CHANCE);
         }
-    }
-
-    private void placeSquare(Position position, SquareModel square) {
-        Dictionary<long, SquareModel> column;
-        if (_squares.ContainsKey(position.X)) {
-            column = _squares[position.X];
-        } else {
-            column = new();
-            _squares[position.X] = column;
-        }
-        if (column.ContainsKey(position.Y)) {
-            throw new ArgumentException($"There is already a square at ({position.X}, {position.Y})");
-        }
-        column[position.Y] = square;
     }
 }

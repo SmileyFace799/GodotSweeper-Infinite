@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 
 public class SpecialSquareType : SquareType {
     public bool IsBad {get;}
@@ -10,6 +11,7 @@ public class SpecialSquareType : SquareType {
 
     public static readonly SpecialSquareType[] ALL_BAD = new SpecialSquareType[]{BOMB};
     public static readonly SpecialSquareType[] ALL_GOOD = new SpecialSquareType[]{LIFE, MINECHANCE_REDUCTION};
+    public static readonly SpecialSquareType[] ALL = ALL_BAD.Union(ALL_GOOD).ToArray();
 
     private SpecialSquareType(double weight, bool isBad) {
         Weight = weight;

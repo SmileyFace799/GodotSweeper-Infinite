@@ -9,7 +9,7 @@ public partial class Board : TileMap, BoardUpdateListener {
 	private const float INITIAL_ZOOM_LEVEL = 1;
 	private const float ZOOM_LEVEL_INCREMENT = 0.5F;
 
-	private readonly BoardModel _model;
+	private readonly BoardInterface _model;
 	private Camera2D _camera;
 
 	/// <summary>
@@ -37,7 +37,7 @@ public partial class Board : TileMap, BoardUpdateListener {
 	}
 
 	public Board() : base() {
-		_model = new();
+		_model = new(".board");
 	}
 
 	// Called when the node enters the scene tree for the first time.
@@ -48,44 +48,19 @@ public partial class Board : TileMap, BoardUpdateListener {
 		}
 		_camera.Zoom = ActualZoom;
 
-		_model.Listener = this;
-		_model.RevealSquare(new(0, 0), 0, 0);
+		_model.SetBoardGuiListener(this);
+		Position startPosition = new(0, 0);
+		_model.With(board => {
+			if (!board.HasSquare(startPosition)) {
+				board.RevealSquare(new(0, 0), 0, 0);
+			}
+			foreach ((long x, Dictionary<long, SquareModel> column) in board.GetSquares()) {
+				foreach ((long y, SquareModel square) in column) {
+					OnSquareUpdated(new(x, y), square);
+				}
+			}
+		});
 	}
-
-	/// <summary>
-	/// Utility function to check if a square at a specified position satisfies a specified condition.
-	/// </summary>
-	/// <param name="position">The position of the square to check</param>
-	/// <param name="ifNotFound">The default result if the square doesn't exist</param>
-	/// <param name="checker">The condition to check if the square exists</param>
-	/// <returns>If the condition is satisfied or not, or the default result if the square didn't exist</returns>
-	private bool SquareState(Position position, bool ifNotFound, Func<SquareModel, bool> checker) {
-		bool state = _model.HasSquare(position) ^ ifNotFound;
-		if (state ^ ifNotFound) { // Can only enter if HasSquare returns true
-			state = checker(_model.GetSquare(position));
-		}
-		return state;
-	}
-
-	/// <summary>
-	/// Checks if a square can be revealed at a specified position.
-	/// </summary>
-	/// <param name="position">The position to check</param>
-	/// <returns>If a square can be revealed at the specified position</returns>
-	private bool IsRevealable(Position position) => SquareState(position, true, s => !s.Flagged && !s.Opened);
-	/// <summary>
-	/// Checks if a square can be flagged at a specified position.
-	/// </summary>
-	/// <param name="position">The position to check</param>
-	/// <returns>If a square can be flagged at the specified position</returns>
-	private bool IsFlaggable(Position position) => SquareState(position, false, s => !s.Opened);
-	/// <summary>
-	/// Checks if a square can be "smart revealed" at a specified position.<br/>
-	/// "Smart revealing" refers to revealing a number square's covered squares if its number equals the number of covered squares that are flagged.
-	/// </summary>
-	/// <param name="position">The position to check</param>
-	/// <returns>If a square can be "smart revealed" at the specified position</returns>
-	private bool IsSmartRevealable(Position position) => SquareState(position, false, s => s.Opened && s is NumberSquareModel);
 
 	/// <summary>
 	/// Transforms a position within the viewport to the equivalent position within the game world, when accounting for camera zoom.
@@ -119,29 +94,37 @@ public partial class Board : TileMap, BoardUpdateListener {
 			} else if (mouseEvent.IsReleased()) {
 				Vector2 pos = ToAbsolute(mouseEvent.Position);
 				Position clickedBoardPosition = Utils.ToPosition(LocalToMap(pos));
-				
-				if (mouseEvent.ButtonIndex == MouseButton.Left && IsRevealable(clickedBoardPosition)) {
-					_model.RevealSquare(clickedBoardPosition);
-				} else if (mouseEvent.ButtonIndex == MouseButton.Right && IsFlaggable(clickedBoardPosition)) {
-					_model.FlagSquare(clickedBoardPosition);
-				} else if (mouseEvent.ButtonIndex == MouseButton.Middle) {
-					if (IsSmartRevealable(clickedBoardPosition) && !_cameraMoveData.MoveInitiated) {
-						NumberSquareModel numberSquare = (NumberSquareModel) _model.GetSquare(clickedBoardPosition);
-						Dictionary<Position, SquareModel> coveredSquares = _model.GetOrGenerateCoveredSquares(clickedBoardPosition, numberSquare.Type);
-						if (numberSquare.Number == coveredSquares.Values.Where(s => s.Flagged).Count()) {
-							_model.RevealSquares(
-								coveredSquares.Where(kvp => !kvp.Value.Flagged && !kvp.Value.Opened).ToDictionary(kvp => kvp.Key, kvp => kvp.Value),
-								BoardModel.CASCADE_LIMIT,
-								BoardModel.SPECIAL_BAD_CHANCE,
-								BoardModel.SPECIAL_GOOD_CHANCE
-							);
-						}
-					}
+
+				bool camMovementWasStopped = false;
+				if (mouseEvent.ButtonIndex == MouseButton.Middle) {
+					camMovementWasStopped = _cameraMoveData != null && _cameraMoveData.MoveInitiated;
 					_cameraMoveData = null;
-				} else if (mouseEvent.ButtonIndex == MouseButton.WheelUp) {
+				}
+
+				if (mouseEvent.ButtonIndex == MouseButton.WheelUp) {
 					IncrementZoom(true, mouseEvent.Position);
 				} else if (mouseEvent.ButtonIndex == MouseButton.WheelDown) {
 					IncrementZoom(false, mouseEvent.Position);
+				} else if (!camMovementWasStopped) {
+					_model.With(board => {
+						if (mouseEvent.ButtonIndex == MouseButton.Left && board.IsRevealable(clickedBoardPosition)) {
+							board.RevealSquare(clickedBoardPosition);
+						} else if (mouseEvent.ButtonIndex == MouseButton.Right && board.IsFlaggable(clickedBoardPosition)) {
+							board.FlagSquare(clickedBoardPosition);
+						} else if (mouseEvent.ButtonIndex == MouseButton.Middle && board.IsSmartRevealable(clickedBoardPosition)) {
+							NumberSquareModel numberSquare = (NumberSquareModel) board.GetSquare(clickedBoardPosition);
+							Dictionary<Position, SquareModel> coveredSquares = board.GetOrGenerateCoveredSquares(clickedBoardPosition, numberSquare.Type);
+							if (numberSquare.Number == coveredSquares.Values.Where(s => s.Flagged).Count()) {
+								board.RevealSquares(
+									coveredSquares.Where(kvp => !kvp.Value.Flagged && !kvp.Value.Opened).ToDictionary(kvp => kvp.Key, kvp => kvp.Value),
+									BoardModel.CASCADE_LIMIT,
+									BoardModel.SPECIAL_BAD_CHANCE,
+									BoardModel.SPECIAL_GOOD_CHANCE
+								);
+							}
+							
+						}
+					});
 				}
 			}
 		} else if (@event is InputEventKey keyEvent) {
