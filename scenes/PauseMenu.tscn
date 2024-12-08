@@ -1,0 +1,75 @@
+[gd_scene load_steps=8 format=3 uid="uid://cf6f6ct2xipmk"]
+
+[ext_resource type="Theme" uid="uid://bj0ewxky3l1u" path="res://resources/UITheme.tres" id="1_b7xq6"]
+[ext_resource type="Script" path="res://code/scripts/PauseMenu.cs" id="1_hp1sg"]
+[ext_resource type="PackedScene" uid="uid://wq1oovqkg3fn" path="res://scenes/OuterFrame.tscn" id="3_hlt1m"]
+[ext_resource type="PackedScene" uid="uid://bu8k2h3qo33jk" path="res://scenes/InnerFrameLarge.tscn" id="4_83o6g"]
+[ext_resource type="PackedScene" uid="uid://ick8vsx47v7q" path="res://scenes/OuterFrameBounds.tscn" id="4_d870m"]
+[ext_resource type="PackedScene" uid="uid://bij0pkp1tooej" path="res://scenes/InnerFrameSmall.tscn" id="5_yal0t"]
+[ext_resource type="PackedScene" uid="uid://b53pe43l26qog" path="res://scenes/InnerFrameBounds.tscn" id="6_567xn"]
+
+[node name="PauseMenu" type="CanvasLayer"]
+process_mode = 3
+script = ExtResource("1_hp1sg")
+
+[node name="BaseFrame" type="MarginContainer" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_b7xq6")
+
+[node name="OuterFrame" parent="BaseFrame" instance=ExtResource("3_hlt1m")]
+layout_mode = 2
+
+[node name="OuterFrameInnerFrameLargeBounds" parent="BaseFrame" instance=ExtResource("4_d870m")]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="BaseFrame/OuterFrameInnerFrameLargeBounds"]
+layout_mode = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="BaseFrame/OuterFrameInnerFrameLargeBounds/VBoxContainer"]
+layout_mode = 2
+
+[node name="InnerFrameSmall" parent="BaseFrame/OuterFrameInnerFrameLargeBounds/VBoxContainer/MarginContainer" instance=ExtResource("5_yal0t")]
+layout_mode = 2
+
+[node name="InnerFrameSmallBounds" parent="BaseFrame/OuterFrameInnerFrameLargeBounds/VBoxContainer/MarginContainer" instance=ExtResource("6_567xn")]
+layout_mode = 2
+
+[node name="GamePausedText" type="Label" parent="BaseFrame/OuterFrameInnerFrameLargeBounds/VBoxContainer/MarginContainer/InnerFrameSmallBounds"]
+layout_mode = 2
+text = "Game Paused"
+horizontal_alignment = 1
+
+[node name="MarginContainer2" type="MarginContainer" parent="BaseFrame/OuterFrameInnerFrameLargeBounds/VBoxContainer"]
+layout_mode = 2
+
+[node name="InnerFrameLarge" parent="BaseFrame/OuterFrameInnerFrameLargeBounds/VBoxContainer/MarginContainer2" instance=ExtResource("4_83o6g")]
+layout_mode = 2
+
+[node name="InnerFrameSmallBounds" parent="BaseFrame/OuterFrameInnerFrameLargeBounds/VBoxContainer/MarginContainer2" instance=ExtResource("6_567xn")]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="BaseFrame/OuterFrameInnerFrameLargeBounds/VBoxContainer/MarginContainer2/InnerFrameSmallBounds"]
+layout_mode = 2
+alignment = 1
+
+[node name="ResumeButton" type="Button" parent="BaseFrame/OuterFrameInnerFrameLargeBounds/VBoxContainer/MarginContainer2/InnerFrameSmallBounds/VBoxContainer"]
+layout_mode = 2
+text = "Resume Game"
+
+[node name="Button2" type="Button" parent="BaseFrame/OuterFrameInnerFrameLargeBounds/VBoxContainer/MarginContainer2/InnerFrameSmallBounds/VBoxContainer"]
+layout_mode = 2
+text = "Settings"
+
+[node name="Button" type="Button" parent="BaseFrame/OuterFrameInnerFrameLargeBounds/VBoxContainer/MarginContainer2/InnerFrameSmallBounds/VBoxContainer"]
+layout_mode = 2
+text = "Quit"
+
+[connection signal="pressed" from="BaseFrame/OuterFrameInnerFrameLargeBounds/VBoxContainer/MarginContainer2/InnerFrameSmallBounds/VBoxContainer/ResumeButton" to="." method="OnResumeButtonPressed"]

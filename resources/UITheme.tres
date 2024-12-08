@@ -1,0 +1,35 @@
+[gd_resource type="Theme" load_steps=8 format=3 uid="uid://bj0ewxky3l1u"]
+
+[ext_resource type="FontFile" uid="uid://8xttcfq6fpbm" path="res://font/mine-sweeper.ttf" id="1_4jing"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_j82b6"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_n003o"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3jqhb"]
+bg_color = Color(0, 0, 0, 0.121569)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wndes"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jqiqu"]
+bg_color = Color(0, 0, 0, 0.247059)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jd8y5"]
+bg_color = Color(0.752941, 0.752941, 0.752941, 1)
+
+[resource]
+default_font = ExtResource("1_4jing")
+Button/colors/font_color = Color(0, 0, 0, 1)
+Button/colors/font_disabled_color = Color(0, 0, 0, 0.501961)
+Button/colors/font_focus_color = Color(0, 0, 0, 1)
+Button/colors/font_hover_color = Color(0.0627451, 0.0627451, 0.0627451, 1)
+Button/colors/font_hover_pressed_color = Color(0.0627451, 0.0627451, 0.0627451, 1)
+Button/colors/font_outline_color = Color(0, 0, 0, 1)
+Button/colors/font_pressed_color = Color(0, 0, 0, 1)
+Button/styles/disabled = SubResource("StyleBoxEmpty_j82b6")
+Button/styles/focus = SubResource("StyleBoxEmpty_n003o")
+Button/styles/hover = SubResource("StyleBoxFlat_3jqhb")
+Button/styles/normal = SubResource("StyleBoxEmpty_wndes")
+Button/styles/pressed = SubResource("StyleBoxFlat_jqiqu")
+Label/colors/font_color = Color(0, 0, 0, 1)
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_jd8y5")

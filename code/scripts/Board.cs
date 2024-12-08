@@ -127,11 +127,14 @@ public partial class Board : TileMap, BoardUpdateListener {
 					});
 				}
 			}
-		} else if (@event is InputEventKey keyEvent) {
-			if (keyEvent.Keycode == Key.Escape) {
-				_camera.Position = Vector2.Zero;
-				_cameraMoveData = null;
-			}
+		} else if (
+			@event is InputEventKey keyEvent
+			&& keyEvent.IsPressed() // Checks if the key is pressed in
+			&& keyEvent.Keycode == Key.Escape // Cheks if Escape is pressed
+			&& (keyEvent.GetModifiersMask() & (KeyModifierMask.MaskShift | KeyModifierMask.MaskCtrl)) != 0 // Checks if Shift or Ctrl keymod is present
+		) {
+			_camera.Position = Vector2.Zero;
+			_cameraMoveData = null;
 		}
 		GetViewport().SetInputAsHandled();
     }

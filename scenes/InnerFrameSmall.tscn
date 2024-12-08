@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3 uid="uid://bij0pkp1tooej"]
+
+[ext_resource type="Texture2D" uid="uid://rwvyxw7r2rdo" path="res://resources/images/innerFrameSmall.bmp" id="1_sq6id"]
+
+[node name="InnerFrameSmall" type="NinePatchRect"]
+texture_filter = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_sq6id")
+patch_margin_left = 6
+patch_margin_top = 5
+patch_margin_right = 6
+patch_margin_bottom = 5

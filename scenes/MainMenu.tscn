@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://fvadcud4i2u1"]
 
-[ext_resource type="Script" path="res://PlayButton.cs" id="1_tfrnw"]
+[ext_resource type="Script" path="res://code/scripts/PlayButton.cs" id="1_asaew"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -28,6 +28,6 @@ alignment = 1
 [node name="PlayButton" type="Button" parent="ButtonContainer"]
 layout_mode = 2
 text = "Play Game"
-script = ExtResource("1_tfrnw")
+script = ExtResource("1_asaew")
 
 [connection signal="pressed" from="ButtonContainer/PlayButton" to="ButtonContainer/PlayButton" method="OnPressed"]
