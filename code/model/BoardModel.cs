@@ -4,8 +4,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 
 public class BoardModel {
-    public const double SPECIAL_BAD_CHANCE = 0.25;
-    public const double SPECIAL_GOOD_CHANCE = 0.00;
     public const int CASCADE_LIMIT = 50;
 
     private readonly Random _random = new();
@@ -24,6 +22,12 @@ public class BoardModel {
     public HashSet<SquareModel> Squares() {
         return _squares.Values.SelectMany(v => v.Values).ToHashSet();
     }
+
+    private static double GetBadChance(Position position) {
+        double x = position.Abs;
+        return Math.Log(x / 6 + 1) / 16 + Math.Sin(x / 5 + Math.PI) / 25 + 1 / (x + 10) - 0.95 + Math.Pow(1.001, 0.005 * x * x);
+    }
+    private static double GetGoodChance(Position position) => 1 / (50 * position.Abs + 1000);
 
     private void placeSquare(Position position, SquareModel square) {
         Dictionary<long, SquareModel> column;
@@ -93,12 +97,21 @@ public class BoardModel {
         return new(_squares);
     }
 
-    private SquareModel GenerateSquare(double specialBadChance, double specialGoodChance) {
+    private SquareModel GenerateSquare(Position position, double badChanceModifier, double goodChanceModifier) {
+        return GenerateSquare(position, GetBadChance(position) + badChanceModifier, GetGoodChance(position) + goodChanceModifier);
+    }
+
+    private SquareModel GenerateSquare(
+        Position position,
+        SquareGenData squareGenData
+    ) {
         SquareModel generatedSquare;
         double randomNum = _random.NextDouble();
-        if (randomNum < specialBadChance) {
+        double badChance = squareGenData.GetBadChance(position);
+        double goodChance = squareGenData.GetGoodChance(position);
+        if (randomNum < badChance) {
             generatedSquare = new SpecialSquareModel(SpecialSquareType.GetRandomBad());
-        } else if (randomNum - specialBadChance < specialGoodChance) {
+        } else if (randomNum - badChance < goodChance) {
             generatedSquare = new SpecialSquareModel(SpecialSquareType.GetRandomGood());
         } else {
             generatedSquare = new NumberSquareModel(NumberSquareType.GetRandom());
@@ -106,28 +119,23 @@ public class BoardModel {
         return generatedSquare;
     }
 
-    private SquareModel GetOrGenerateSquare(Position position, double specialBadChance, double specialGoodChance) {
+    private SquareModel GetOrGenerateSquare(Position position, SquareGenData squareGenData) {
         SquareModel square;
         if (HasSquare(position)) {
             square = GetSquare(position);
         } else {
-            square = GenerateSquare(specialBadChance, specialGoodChance);
+            square = GenerateSquare(position, squareGenData);
             placeSquare(position, square);
         }
         return square;
     }
 
-    public Dictionary<Position, SquareModel> GetOrGenerateCoveredSquares(Position position, NumberSquareType numberSquareType) {
-        return GetOrGenerateCoveredSquares(position, numberSquareType, SPECIAL_BAD_CHANCE, SPECIAL_GOOD_CHANCE);
-    }
-
-    private Dictionary<Position, SquareModel> GetOrGenerateCoveredSquares(
+    public Dictionary<Position, SquareModel> GetOrGenerateCoveredSquares(
         Position position,
         NumberSquareType numberSquareType,
-        double specialBadChance,
-        double specialGoodChance
+        SquareGenData squareGenData
     ) {
-        return numberSquareType.RelativeCoverage.ToDictionary(p => position + p, p => GetOrGenerateSquare(position + p, specialBadChance, specialGoodChance));
+        return numberSquareType.RelativeCoverage.ToDictionary(p => position + p, p => GetOrGenerateSquare(position + p, squareGenData));
     }
 
     public void FlagSquare(Position position) {
@@ -142,8 +150,8 @@ public class BoardModel {
         GuiListener.OnSquareUpdated(position, squareToFlag);
     }
 
-    public void RevealSquare(Position position) {
-        RevealSquare(position, SPECIAL_BAD_CHANCE, SPECIAL_GOOD_CHANCE);
+    public void RevealSquare(Position position, SquareGenData cascadeGenData) {
+        RevealSquare(position, cascadeGenData, cascadeGenData);
     }
 
     /// <summary>
@@ -157,22 +165,26 @@ public class BoardModel {
     /// Will not apply to revealed cascading squares</param>
     /// <param name="specialGoodChance">If the chance of generating a good special square should be overriden for this reveal.
     /// Will not apply to revealed cascading squares</param>
-    public void RevealSquare(Position position, double specialBadChance, double specialGoodChance) {
-        SquareModel squareToReveal = GetOrGenerateSquare(position, specialBadChance, specialGoodChance);
+    public void RevealSquare(Position position, SquareGenData squareGenData, SquareGenData cascadeGenData) {
+        SquareModel squareToReveal = GetOrGenerateSquare(position, squareGenData);
         if (squareToReveal.Opened || squareToReveal.Flagged) {
             throw new InvalidOperationException($"Square at ({position.X}, {position.Y}) is already {(squareToReveal.Opened ? "opened" : "flagged")}");
         }
-        RevealSquares(new Dictionary<Position, SquareModel>{{position, squareToReveal}}, CASCADE_LIMIT, specialBadChance, specialGoodChance);
+        RevealSquares(new Dictionary<Position, SquareModel>{{position, squareToReveal}}, CASCADE_LIMIT, squareGenData, cascadeGenData);
     }
 
-    public void RevealSquares(Dictionary<Position, SquareModel> squaresToReveal, int cascadeLimit, double specialBadChance, double specialGoodChance) {
+    public void RevealSquares(Dictionary<Position, SquareModel> squaresToReveal, int cascadeLimit, SquareGenData cascadeGenData) {
+        RevealSquares(squaresToReveal, cascadeLimit, cascadeGenData, cascadeGenData);
+    }
+
+    private void RevealSquares(Dictionary<Position, SquareModel> squaresToReveal, int cascadeLimit, SquareGenData squareGenData, SquareGenData cascadeGenData) {
         Dictionary<Position, SquareModel> cascadingSquares = new();
         foreach ((Position position, SquareModel squareToReveal) in squaresToReveal) {
             if (squareToReveal is SpecialSquareModel specialSquare) {
                 specialSquare.Open();
                 GuiListener.OnSquareUpdated(position, squareToReveal);
             } else if (squareToReveal is NumberSquareModel numberSquare) {
-                Dictionary<Position, SquareModel> coveredSquares = GetOrGenerateCoveredSquares(position, numberSquare.Type, specialBadChance, specialGoodChance);
+                Dictionary<Position, SquareModel> coveredSquares = GetOrGenerateCoveredSquares(position, numberSquare.Type, squareGenData);
                 int number = coveredSquares.Values.Where(s => s is SpecialSquareModel specialSquare && specialSquare.Type.IsBad).Count();
                 numberSquare.Number = number;
                 GuiListener.OnSquareUpdated(position, squareToReveal);
@@ -194,7 +206,38 @@ public class BoardModel {
             }
         }
         if (cascadingSquares.Any()) {
-            RevealSquares(cascadingSquares, --cascadeLimit, SPECIAL_BAD_CHANCE, SPECIAL_GOOD_CHANCE);
+            RevealSquares(cascadingSquares, --cascadeLimit, cascadeGenData);
         }
     }
+
+    public interface SquareGenData {
+        protected static double GetRawBadChance(Position position) {
+            double x = position.Abs;
+            return Math.Log(x / 6 + 1) / 16 + Math.Sin(x / 5 + Math.PI) / 25 + 1 / (x + 10) - 0.95 + Math.Pow(1.001, 0.005 * x * x);
+        }
+        protected static double GetRawGoodChance(Position position) => 1 / (10 * position.Abs + 200) + 0.2;
+
+        double GetBadChance(Position position);
+        double GetGoodChance(Position position);
+    }
+
+    public record RelativeGenData(double BadChanceModifier=0, double GoodChanceModifier=0) : SquareGenData {
+        public double GetBadChance(Position position) {
+            return SquareGenData.GetRawBadChance(position) + BadChanceModifier;
+        }
+
+        public double GetGoodChance(Position position) {
+            return SquareGenData.GetRawGoodChance(position) + GoodChanceModifier;
+        }
+    };
+
+    public record StaticGenData(double? BadChance=null, double? GoodChance=null) : SquareGenData {
+        public double GetBadChance(Position position) {
+            return BadChance == null ? SquareGenData.GetRawBadChance(position) : (double) BadChance;
+        }
+
+        public double GetGoodChance(Position position) {
+            return GoodChance == null ? SquareGenData.GetRawGoodChance(position) : (double) GoodChance;
+        }
+    };
 }

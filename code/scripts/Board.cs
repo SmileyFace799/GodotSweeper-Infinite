@@ -8,9 +8,13 @@ public partial class Board : TileMap, BoardUpdateListener {
 	private const float CMIR_SQUARED = CAMERA_MOVEMENT_INITIALIZE_RANGE * CAMERA_MOVEMENT_INITIALIZE_RANGE;
 	private const float INITIAL_ZOOM_LEVEL = 1;
 	private const float ZOOM_LEVEL_INCREMENT = 0.5F;
+	private const string SIGNAL_TOGGLE_PAUSED = "TogglePaused";
+	private const string SIGNAL_GAME_OVER = "GameOver";
 
-	private readonly BoardInterface _model;
+	private readonly BoardInterface _board;
+	private readonly StatsInterface _stats;
 	private Camera2D _camera;
+	private bool _boardInitiated;
 
 	/// <summary>
 	/// Stores data on initiated camera movement. If this is <c>null</c>, there is no initiated camera movement, and the camera should not move.
@@ -28,6 +32,12 @@ public partial class Board : TileMap, BoardUpdateListener {
 		return new(actualZoom, actualZoom);
 	}}
 
+	[Signal]
+	public delegate void TogglePausedEventHandler();
+
+	[Signal]
+	public delegate void GameOverEventHandler();
+
 	private void IncrementZoom(bool inwards, Vector2 rawMousePos) {
 		float increment = inwards ? ZOOM_LEVEL_INCREMENT : -ZOOM_LEVEL_INCREMENT;
 		_camZoomLevel += increment;
@@ -37,7 +47,9 @@ public partial class Board : TileMap, BoardUpdateListener {
 	}
 
 	public Board() : base() {
-		_model = new(".board");
+		_boardInitiated = false;
+		_board = new(".board");
+		_stats = new(".stats");
 	}
 
 	// Called when the node enters the scene tree for the first time.
@@ -48,11 +60,11 @@ public partial class Board : TileMap, BoardUpdateListener {
 		}
 		_camera.Zoom = ActualZoom;
 
-		_model.SetBoardGuiListener(this);
+		_board.SetBoardGuiListener(this);
 		Position startPosition = new(0, 0);
-		_model.With(board => {
+		_board.With(board => {
 			if (!board.HasSquare(startPosition)) {
-				board.RevealSquare(new(0, 0), 0, 0);
+				board.RevealSquare(new(0, 0), new BoardModel.StaticGenData(0, 0), new BoardModel.RelativeGenData(_stats.MinechanceReduction));
 			}
 			foreach ((long x, Dictionary<long, SquareModel> column) in board.GetSquares()) {
 				foreach ((long y, SquareModel square) in column) {
@@ -60,6 +72,7 @@ public partial class Board : TileMap, BoardUpdateListener {
 				}
 			}
 		});
+		_boardInitiated = true;
 	}
 
 	/// <summary>
@@ -81,6 +94,26 @@ public partial class Board : TileMap, BoardUpdateListener {
 	/// <param name="camRelativePos"></param>
 	/// <returns>An absolute position in the game world</returns>
 	private Vector2 ToAbsolute(Vector2 camRelativePos) => ToTopLeft(_camera.Position + ToCamZoom(camRelativePos));
+
+	public override void _ShortcutInput(InputEvent @event) {
+		if (@event is InputEventKey keyEvent) {
+			if (keyEvent.IsPressed()) { // Checks if the key is pressed in
+				switch (keyEvent.Keycode) {
+					case Key.Escape:
+						if ((keyEvent.GetModifiersMask() & (KeyModifierMask.MaskShift | KeyModifierMask.MaskCtrl)) != 0) { // Checks if Shift or Ctrl keymod is present
+							_camera.Position = Vector2.Zero;
+							_cameraMoveData = null;
+						} else if (_stats.Alive) {
+							EmitSignal(SIGNAL_TOGGLE_PAUSED);
+						} else {
+							EmitSignal(SIGNAL_GAME_OVER);
+						}
+						break;
+				}
+			}
+			GetViewport().SetInputAsHandled();
+		}
+	}
 
     public override void _UnhandledInput(InputEvent @event) {
 		if (@event is InputEventMouseMotion mouseMotionEvent && _cameraMoveData != null) {
@@ -106,20 +139,20 @@ public partial class Board : TileMap, BoardUpdateListener {
 				} else if (mouseEvent.ButtonIndex == MouseButton.WheelDown) {
 					IncrementZoom(false, mouseEvent.Position);
 				} else if (!camMovementWasStopped) {
-					_model.With(board => {
+					_board.With(board => {
+						BoardModel.SquareGenData genData = new BoardModel.RelativeGenData(_stats.MinechanceReduction);
 						if (mouseEvent.ButtonIndex == MouseButton.Left && board.IsRevealable(clickedBoardPosition)) {
-							board.RevealSquare(clickedBoardPosition);
+							board.RevealSquare(clickedBoardPosition, genData);
 						} else if (mouseEvent.ButtonIndex == MouseButton.Right && board.IsFlaggable(clickedBoardPosition)) {
 							board.FlagSquare(clickedBoardPosition);
 						} else if (mouseEvent.ButtonIndex == MouseButton.Middle && board.IsSmartRevealable(clickedBoardPosition)) {
 							NumberSquareModel numberSquare = (NumberSquareModel) board.GetSquare(clickedBoardPosition);
-							Dictionary<Position, SquareModel> coveredSquares = board.GetOrGenerateCoveredSquares(clickedBoardPosition, numberSquare.Type);
+							Dictionary<Position, SquareModel> coveredSquares = board.GetOrGenerateCoveredSquares(clickedBoardPosition, numberSquare.Type, genData);
 							if (numberSquare.Number == coveredSquares.Values.Where(s => s.Flagged).Count()) {
 								board.RevealSquares(
 									coveredSquares.Where(kvp => !kvp.Value.Flagged && !kvp.Value.Opened).ToDictionary(kvp => kvp.Key, kvp => kvp.Value),
 									BoardModel.CASCADE_LIMIT,
-									BoardModel.SPECIAL_BAD_CHANCE,
-									BoardModel.SPECIAL_GOOD_CHANCE
+									genData
 								);
 							}
 							
@@ -127,19 +160,20 @@ public partial class Board : TileMap, BoardUpdateListener {
 					});
 				}
 			}
-		} else if (
-			@event is InputEventKey keyEvent
-			&& keyEvent.IsPressed() // Checks if the key is pressed in
-			&& keyEvent.Keycode == Key.Escape // Cheks if Escape is pressed
-			&& (keyEvent.GetModifiersMask() & (KeyModifierMask.MaskShift | KeyModifierMask.MaskCtrl)) != 0 // Checks if Shift or Ctrl keymod is present
-		) {
-			_camera.Position = Vector2.Zero;
-			_cameraMoveData = null;
 		}
 		GetViewport().SetInputAsHandled();
     }
 
     public void OnSquareUpdated(Position position, SquareModel square) {
+		if (square.Opened && _boardInitiated) {
+			_stats.With(stats => {
+				if (square.Type == SpecialSquareType.BOMB) {
+					--stats.Lives;
+				} else if (square.Type == SpecialSquareType.MINECHANCE_REDUCTION) {
+					stats.MinechanceReduction -= 0.02;
+				}
+			});
+		}
         SetCell(0, Utils.ToVector2I(position), 0, Utils.GetAtlasCoords(square));
     }
 

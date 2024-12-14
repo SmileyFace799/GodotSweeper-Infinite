@@ -1,12 +1,67 @@
-[gd_scene load_steps=4 format=3 uid="uid://btmx6d07mv7bs"]
+[gd_scene load_steps=6 format=3 uid="uid://btmx6d07mv7bs"]
 
-[ext_resource type="TileSet" uid="uid://fsx3m3tk5k60" path="res://resources/Squares.tres" id="1_5duth"]
+[ext_resource type="Texture2D" uid="uid://hlwbedg3jn52" path="res://resources/images/squares_copy.png" id="1_xncfy"]
 [ext_resource type="Script" path="res://code/scripts/Board.cs" id="2_avd62"]
 [ext_resource type="PackedScene" uid="uid://cf6f6ct2xipmk" path="res://scenes/PauseMenu.tscn" id="3_lxhv0"]
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_g0hd3"]
+texture = ExtResource("1_xncfy")
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+4:0/0 = 0
+5:0/0 = 0
+6:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+4:1/0 = 0
+5:1/0 = 0
+6:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+3:2/0 = 0
+4:2/0 = 0
+5:2/0 = 0
+6:2/0 = 0
+0:3/0 = 0
+1:3/0 = 0
+2:3/0 = 0
+3:3/0 = 0
+4:3/0 = 0
+5:3/0 = 0
+6:3/0 = 0
+0:4/0 = 0
+1:4/0 = 0
+2:4/0 = 0
+3:4/0 = 0
+4:4/0 = 0
+5:4/0 = 0
+6:4/0 = 0
+0:5/0 = 0
+1:5/0 = 0
+2:5/0 = 0
+3:5/0 = 0
+4:5/0 = 0
+5:5/0 = 0
+6:5/0 = 0
+0:6/0 = 0
+1:6/0 = 0
+2:6/0 = 0
+3:6/0 = 0
+4:6/0 = 0
+5:6/0 = 0
+6:6/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_jeoxi"]
+sources/0 = SubResource("TileSetAtlasSource_g0hd3")
+
 [node name="Board" type="TileMap"]
 texture_filter = 1
-tile_set = ExtResource("1_5duth")
+tile_set = SubResource("TileSet_jeoxi")
 format = 2
 script = ExtResource("2_avd62")
 
@@ -15,3 +70,5 @@ zoom = Vector2(2, 2)
 
 [node name="PauseMenu" parent="." instance=ExtResource("3_lxhv0")]
 visible = false
+
+[connection signal="TogglePaused" from="." to="PauseMenu" method="OnBoardTogglePaused"]

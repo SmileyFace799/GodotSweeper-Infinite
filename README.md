@@ -22,7 +22,7 @@ It does not cover standard Minesweeper mechanics, as those are implicitly includ
 <p><b>Features to be implemented into the MVP (within deadline):</b>
 <ul>
     <li>Progressively generated board: ✅</li>
-    <li>Progressively incrementing mine chance: ❌</li>
+    <li>Progressively incrementing mine chance: ✅</li>
     <li>Additional lives, with squares or other items that can give them: ❌</li>
     <li>Squares or other items that reduce incrementing mine chance in some way: ❌</li>
     <li>Different types of number squares, that reveal mine info in different ways than a standard number square: ✅
@@ -53,9 +53,9 @@ It does not cover standard Minesweeper mechanics, as those are implicitly includ
     <li>Save & load functionality, persistent storage: ✅</li>
     <li>Upgrades that persist between games: ❌</li>
     <li>Movable & zoomable camera: ✅</li>
-    <li>Basic functional UI: ❌<ul>
-        <li>Main Menu / Title screen: ❌</li>
-        <li>Pause screen: ❌</li>
+    <li>Basic functional UI: 🟨<ul>
+        <li>Main Menu / Title screen: ✅</li>
+        <li>Pause screen: ✅</li>
         <li>Upgrades screen: ❌</li>
     </ul></li>
     <li>Complete graphics, no placeholder textures: ❌</li>

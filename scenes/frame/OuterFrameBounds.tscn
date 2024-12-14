@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://ick8vsx47v7q"]
 
-[node name="OuterFrameInnerFrameLargeBounds" type="MarginContainer"]
+[node name="OuterFrameBounds" type="MarginContainer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0

@@ -56,9 +56,9 @@ public class Utils {
         if (type == SpecialSquareType.BOMB) {
             name = TileName.BOMB_EXPLODED;
         } else if (type == SpecialSquareType.LIFE) {
-            name = TileName.MISSING_TEXTURE;
+            name = TileName.EXTRA_LIFE;
         } else if (type == SpecialSquareType.MINECHANCE_REDUCTION) {
-            name = TileName.MISSING_TEXTURE;
+            name = TileName.MINECHANCE_REDUCTION_MEDIUM;
         } else {
             name = TileName.MISSING_TEXTURE;
         }
@@ -111,6 +111,10 @@ public class Utils {
         DIAMOND_SIX,
         DIAMOND_SEVEN,
         DIAMOND_EIGHT,
-        MISSING_TEXTURE
+        MISSING_TEXTURE,
+        MINECHANCE_REDUCTION_SMALL,
+        MINECHANCE_REDUCTION_MEDIUM,
+        MINECHANCE_REDUCTION_LARGE,
+        EXTRA_LIFE
     }
 }

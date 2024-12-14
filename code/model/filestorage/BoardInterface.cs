@@ -19,21 +19,6 @@ public class BoardInterface : FileInterface<BoardModel>, BoardUpdateListener {
         Value.GuiListener = guiListener;
     }
 
-    private byte NextByte(IEnumerator<byte> bytes) {
-        if (!bytes.MoveNext()) {
-            throw new InvalidDataException("Out of bytes!");
-        }
-        return bytes.Current;
-    }
-
-    private byte[] NextBytes(IEnumerator<byte> bytes, int amount) {
-        byte[] next = new byte[amount];
-        for (int i = 0; i < amount; ++i) {
-            next[i] = NextByte(bytes);
-        }
-        return next;
-    }
-
 
 
     private bool[] DecompressBools(byte boolByte) {
@@ -61,15 +46,15 @@ public class BoardInterface : FileInterface<BoardModel>, BoardUpdateListener {
 
 
 
-    private SquareModel BytesToSquare(IEnumerator<byte> bytes) {
-        bool[] bools = DecompressBools(NextByte(bytes));
-        SquareType type = ALL_SQUARE_TYPES[NextByte(bytes)];
+    private SquareModel BytesToSquare(ByteEnumerator bytes) {
+        bool[] bools = DecompressBools(bytes.Next());
+        SquareType type = ALL_SQUARE_TYPES[bytes.Next()];
         SquareModel square;
         switch (type) {
             case NumberSquareType numberType:
                 NumberSquareModel numberSquare = new(numberType);
                 if (bools[1]) { // Opened
-                    numberSquare.Number = NextByte(bytes);
+                    numberSquare.Number = bytes.Next();
                 }
                 square = numberSquare;
                 break;
@@ -102,11 +87,11 @@ public class BoardInterface : FileInterface<BoardModel>, BoardUpdateListener {
 
 
 
-    private Dictionary<long, SquareModel> BytesToColumn(IEnumerator<byte> bytes) {
-        int squareCount = BitConverter.ToInt32(NextBytes(bytes, 4));
+    private Dictionary<long, SquareModel> BytesToColumn(ByteEnumerator bytes) {
+        int squareCount = BitConverter.ToInt32(bytes.Next(4));
         Dictionary<long, SquareModel> column = new();
         for (int i = 0; i < squareCount; ++i) {
-            column.Add(BitConverter.ToInt64(NextBytes(bytes, 8)), BytesToSquare(bytes));
+            column.Add(BitConverter.ToInt64(bytes.Next(8)), BytesToSquare(bytes));
         }
         return column;
     }
@@ -118,12 +103,11 @@ public class BoardInterface : FileInterface<BoardModel>, BoardUpdateListener {
 
 
 
-    public override BoardModel FromBytes(byte[] byteArray) {
-        IEnumerator<byte> bytes = byteArray.AsEnumerable().GetEnumerator();
-        int columnCount = BitConverter.ToInt32(NextBytes(bytes, 4));
+    public override BoardModel FromBytes(ByteEnumerator bytes) {
+        int columnCount = BitConverter.ToInt32(bytes.Next(4));
         Dictionary<long, Dictionary<long, SquareModel>> boardSquares = new();
         for (int i = 0; i < columnCount; ++i) {
-            boardSquares.Add(BitConverter.ToInt64(NextBytes(bytes, 8)), BytesToColumn(bytes));
+            boardSquares.Add(BitConverter.ToInt64(bytes.Next(8)), BytesToColumn(bytes));
         }
         return new(boardSquares);
     }

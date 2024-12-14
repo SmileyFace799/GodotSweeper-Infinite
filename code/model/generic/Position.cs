@@ -1,3 +1,4 @@
+using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Security.Cryptography.X509Certificates;
 
@@ -12,6 +13,8 @@ public struct Position {
     }
     public required long X {get; init;}
     public required long Y {get; init;}
+
+    public readonly double Abs => Math.Sqrt(X * X + Y * Y);
 
     public static Position operator + (Position p1, Position p2) {
         return new(p1.X + p2.X, p1.Y + p2.Y);

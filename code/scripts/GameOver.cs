@@ -1,26 +1,26 @@
 using Godot;
 
-public partial class PauseMenu : CanvasLayer {
+public partial class GameOver : CanvasLayer {
 
 	public override void _ShortcutInput(InputEvent @event) {
 		if (@event is InputEventKey keyEvent) {
 			if (keyEvent.Keycode == Key.Escape && keyEvent.IsPressed()) {
-				OnBoardTogglePaused();
+				OnBoardGameOver();
 			}
 			GetViewport().SetInputAsHandled();
 		}
 	}
-	private void OnBoardTogglePaused() {
+	private void OnBoardGameOver() {
 		Visible = !Visible;
 		GetTree().Paused = Visible;
 	}
 
-	public void OnResumeButtonPressed() {
-		OnBoardTogglePaused();
+	public void OnSpectateButtonPressed() {
+		OnBoardGameOver();
 	}
 
 	public void OnMainMenuButtonPressed() {
-		OnBoardTogglePaused();
+		OnBoardGameOver();
 		GetTree().ChangeSceneToFile("res://scenes/MainMenu.tscn");
 	}
 }

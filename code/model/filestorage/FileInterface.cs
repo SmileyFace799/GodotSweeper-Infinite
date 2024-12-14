@@ -1,5 +1,8 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 public abstract class FileInterface<T> {
     private const string APP_DIR_NAME = "GodotSweeperInfinite";
@@ -42,7 +45,7 @@ public abstract class FileInterface<T> {
     private void Load() {
         _loaded = true;
         if (File.Exists(_path)) {
-            _value = FromBytes(File.ReadAllBytes(_path));
+            _value = FromBytes(new ByteEnumerator(File.ReadAllBytes(_path)));
             try {
             } catch (Exception e) {
                 _value = Default;
@@ -66,5 +69,48 @@ public abstract class FileInterface<T> {
 
     public abstract byte[] ToBytes(T value);
 
-    public abstract T FromBytes(byte[] bytes);
+    public abstract T FromBytes(ByteEnumerator bytes);
+
+    public class ByteEnumerator : IEnumerator<byte> {
+        private readonly IEnumerator<byte> _baseEnumerator;
+
+        public byte Current => _baseEnumerator.Current;
+
+        object IEnumerator.Current => ((IEnumerator) _baseEnumerator).Current;
+
+        public ByteEnumerator(byte[] bytes) {
+            _baseEnumerator = bytes.AsEnumerable().GetEnumerator();
+        }
+
+        public byte Next() {
+            if (!MoveNext()) {
+                throw new InvalidDataException("Out of bytes!");
+            }
+            return Current;
+        }
+
+        public byte[] Next(int amount) {
+            byte[] next = new byte[amount];
+            for (int i = 0; i < amount; ++i) {
+                next[i] = Next();
+            }
+            return next;
+        }
+
+        public void Dispose() {
+            _baseEnumerator.Dispose();
+        }
+
+        private bool MoveNext() {
+            return _baseEnumerator.MoveNext();
+        }
+
+        bool IEnumerator.MoveNext() {
+            return MoveNext();
+        }
+
+        public void Reset() {
+            _baseEnumerator.Reset();
+        }
+    }
 }
