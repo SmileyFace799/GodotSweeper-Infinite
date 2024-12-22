@@ -11,7 +11,7 @@
 <ol>
     <li>Create a runnable project with core Minesweeper gameplay: ✅</li>
     <li>Create a playable infinite Minesweeper game: ✅</li>
-    <li>Add simple roguelike elements to the game: ❌</li>
+    <li>Add simple roguelike elements to the game: 🟨</li>
     <li>Playtesting & bugtesting, finished & playable MVP created: ❌</li>
 </ol></p>
 
@@ -23,8 +23,8 @@ It does not cover standard Minesweeper mechanics, as those are implicitly includ
 <ul>
     <li>Progressively generated board: ✅</li>
     <li>Progressively incrementing mine chance: ✅</li>
-    <li>Additional lives, with squares or other items that can give them: ❌</li>
-    <li>Squares or other items that reduce incrementing mine chance in some way: ❌</li>
+    <li>Additional lives, with squares or other items that can give them: ✅</li>
+    <li>Squares or other items that reduce incrementing mine chance in some way: ✅</li>
     <li>Different types of number squares, that reveal mine info in different ways than a standard number square: ✅
     <ul>
 <li>Cross square: ✅
@@ -56,6 +56,7 @@ It does not cover standard Minesweeper mechanics, as those are implicitly includ
     <li>Basic functional UI: 🟨<ul>
         <li>Main Menu / Title screen: ✅</li>
         <li>Pause screen: ✅</li>
+        <li>SIdebar w/info: ✅</li>
         <li>Upgrades screen: ❌</li>
     </ul></li>
     <li>Complete graphics, no placeholder textures: ❌</li>
