@@ -1,11 +1,11 @@
 # GodotSweeper Infinite
-<p>This is a re-make of my "JavaSweeper Infinite" project, which again is a discontinued & unfinished Java re-make of my "Minesweeper Infinite" project, which is quite simply Minesweeper in, but progressively generated & infinite (with large quantities of spaghetti Python code).</p>
+<p>This is a re-make of my <a href="https://github.com/SmileyFace799/javasweeper_infinite">JavaSweeper Infinite</a> Java project, which again is a discontinued & unfinished re-make of my <code>Minesweeper Infinite</code> Python project (source code lost), which is quite simply Minesweeper in, but progressively generated & infinite.</p>
 
 ## Deadline
 <p>The deadline for the MVP of the project is 6/1/2025. Anything outside the MVP will not be prioritized until after this deadline. Beyond the deadline, this will probably become more of a "passion project", where development will happen whenever I feel like it, without any time constraints.</p>
 
 ## Goals of this project
-<p>The "end goal" of this project is simply infinite Minesweeper, but expanded with some unique features to adapt it into a roguelike. There's a few smaller goals along the way (listed below), which will be checked off as the project develops. More specific goals will be tracked using an issue board.</p>
+<p>The "end goal" of this project is simply infinite Minesweeper, but expanded with some unique features to adapt it into a roguelike. There's a few smaller goals along the way (listed below), which will be checked off as the project develops. More specific goals will be tracked using an issue board after MVP has been reached.</p>
 
 <p><b>List of goals (within deadline):</b>
 <ol>
@@ -70,6 +70,7 @@ It does not cover standard Minesweeper mechanics, as those are implicitly includ
     <li>Animations: ❌</li>
     <li>Configurable settings & settings menu: ❌</li>
     <li>In-game tutorial: ❌</li>
+    <li>Chunk-based storage of the board, to actually support near-infinite board sizes: ❌</li>
     <li>More types of number squares: ❌
     <ul>
 <li>Knight square: ❌
