@@ -1,8 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://btmx6d07mv7bs"]
+[gd_scene load_steps=8 format=3 uid="uid://btmx6d07mv7bs"]
 
 [ext_resource type="Texture2D" uid="uid://hlwbedg3jn52" path="res://resources/images/squares_copy.png" id="1_xncfy"]
 [ext_resource type="Script" path="res://code/scripts/Board.cs" id="2_avd62"]
 [ext_resource type="PackedScene" uid="uid://cf6f6ct2xipmk" path="res://scenes/PauseMenu.tscn" id="3_lxhv0"]
+[ext_resource type="PackedScene" uid="uid://cfqeaw3tto0io" path="res://scenes/GameOver.tscn" id="4_vmxfi"]
+[ext_resource type="PackedScene" uid="uid://dmu3rcg5x7xdx" path="res://scenes/SideBar.tscn" id="5_12iom"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_g0hd3"]
 texture = ExtResource("1_xncfy")
@@ -68,7 +70,16 @@ script = ExtResource("2_avd62")
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(2, 2)
 
+[node name="SideBar" parent="." instance=ExtResource("5_12iom")]
+
 [node name="PauseMenu" parent="." instance=ExtResource("3_lxhv0")]
 visible = false
 
+[node name="GameOver" parent="." instance=ExtResource("4_vmxfi")]
+visible = false
+
+[connection signal="GameOver" from="." to="GameOver" method="OnBoardGameOver"]
+[connection signal="HoveredSquareUpdated" from="." to="SideBar" method="OnBoardHoveredSquareUpdated"]
+[connection signal="LivesUpdated" from="." to="SideBar" method="OnBoardLivesUpdated"]
+[connection signal="SquaresOpenedUpdated" from="." to="SideBar" method="OnBoardSquaresOpenedUpdated"]
 [connection signal="TogglePaused" from="." to="PauseMenu" method="OnBoardTogglePaused"]

@@ -3,7 +3,7 @@ using Godot;
 public partial class PauseMenu : CanvasLayer {
 
 	public override void _ShortcutInput(InputEvent @event) {
-		if (@event is InputEventKey keyEvent) {
+		if (Visible && @event is InputEventKey keyEvent) {
 			if (keyEvent.Keycode == Key.Escape && keyEvent.IsPressed()) {
 				OnBoardTogglePaused();
 			}

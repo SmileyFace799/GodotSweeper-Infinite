@@ -36,6 +36,14 @@ public struct Position {
         return new(p.X / n, p.Y / n);
     }
 
+    public static bool operator == (Position p1, Position p2) {
+        return p1.X == p2.X && p1.Y == p2.Y;
+    }
+
+    public static bool operator != (Position p1, Position p2) {
+        return !(p1 == p2);
+    }
+
     public override string ToString(){
         return $"Position{{X={X}, Y={Y}}}";
     }

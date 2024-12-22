@@ -9,7 +9,10 @@ public class BoardModel {
     private readonly Random _random = new();
     private readonly Dictionary<long, Dictionary<long, SquareModel>> _squares;
 
+    private ulong _openedSquareCount = 0;
+
     public BoardUpdateListener GuiListener {get; set;}
+    public ulong OpenedSquareCount => _openedSquareCount;
 
     public BoardModel() {
         _squares = new();
@@ -17,18 +20,14 @@ public class BoardModel {
 
     public BoardModel(Dictionary<long, Dictionary<long, SquareModel>> squares) {
         _squares = squares;
+        foreach(Dictionary<long, SquareModel> column in squares.Values) {
+            _openedSquareCount += (ulong) column.Count();
+        }
     }
 
     public HashSet<SquareModel> Squares() {
         return _squares.Values.SelectMany(v => v.Values).ToHashSet();
     }
-
-    private static double GetBadChance(Position position) {
-        double x = position.Abs;
-        return Math.Log(x / 6 + 1) / 16 + Math.Sin(x / 5 + Math.PI) / 25 + 1 / (x + 10) - 0.95 + Math.Pow(1.001, 0.005 * x * x);
-    }
-    private static double GetGoodChance(Position position) => 1 / (50 * position.Abs + 1000);
-
     private void placeSquare(Position position, SquareModel square) {
         Dictionary<long, SquareModel> column;
         if (_squares.ContainsKey(position.X)) {
@@ -39,6 +38,9 @@ public class BoardModel {
         }
         if (column.ContainsKey(position.Y)) {
             throw new ArgumentException($"There is already a square at ({position.X}, {position.Y})");
+        }
+        if (square.Opened) {
+            ++_openedSquareCount;
         }
         column[position.Y] = square;
     }
@@ -95,10 +97,6 @@ public class BoardModel {
 
     public ReadOnlyDictionary<long, Dictionary<long, SquareModel>> GetSquares() {
         return new(_squares);
-    }
-
-    private SquareModel GenerateSquare(Position position, double badChanceModifier, double goodChanceModifier) {
-        return GenerateSquare(position, GetBadChance(position) + badChanceModifier, GetGoodChance(position) + goodChanceModifier);
     }
 
     private SquareModel GenerateSquare(
@@ -182,22 +180,23 @@ public class BoardModel {
         foreach ((Position position, SquareModel squareToReveal) in squaresToReveal) {
             if (squareToReveal is SpecialSquareModel specialSquare) {
                 specialSquare.Open();
+                ++_openedSquareCount;
                 GuiListener.OnSquareUpdated(position, squareToReveal);
             } else if (squareToReveal is NumberSquareModel numberSquare) {
                 Dictionary<Position, SquareModel> coveredSquares = GetOrGenerateCoveredSquares(position, numberSquare.Type, squareGenData);
                 int number = coveredSquares.Values.Where(s => s is SpecialSquareModel specialSquare && specialSquare.Type.IsBad).Count();
                 numberSquare.Number = number;
+                ++_openedSquareCount;
                 GuiListener.OnSquareUpdated(position, squareToReveal);
 
-                if (number == 0 && cascadeLimit > 0) {
-                    foreach ((Position p, SquareModel coveredSquare) in coveredSquares) {
-                        if (!squaresToReveal.ContainsKey(p) && !cascadingSquares.ContainsKey(p) && !coveredSquare.Opened && !coveredSquare.Flagged) {
+
+                foreach ((Position p, SquareModel coveredSquare) in coveredSquares) {
+                    if (!squaresToReveal.ContainsKey(p) && !cascadingSquares.ContainsKey(p) && !coveredSquare.Opened && !coveredSquare.Flagged) {
+                        if (number == 0 && cascadeLimit > 0) {
                             cascadingSquares.Add(p, coveredSquare);
+                        } else {
+                            GuiListener.OnSquareUpdated(p, coveredSquare);
                         }
-                    }
-                } else {
-                    foreach ((Position p, SquareModel coveredSquare) in coveredSquares) {
-                        GuiListener.OnSquareUpdated(p, coveredSquare);
                     }
                 }
 
@@ -215,7 +214,7 @@ public class BoardModel {
             double x = position.Abs;
             return Math.Log(x / 6 + 1) / 16 + Math.Sin(x / 5 + Math.PI) / 25 + 1 / (x + 10) - 0.95 + Math.Pow(1.001, 0.005 * x * x);
         }
-        protected static double GetRawGoodChance(Position position) => 1 / (10 * position.Abs + 200) + 0.2;
+        protected static double GetRawGoodChance(Position position) => 1 / (3 * position.Abs + 250);
 
         double GetBadChance(Position position);
         double GetGoodChance(Position position);

@@ -1,6 +1,6 @@
 [gd_resource type="Theme" load_steps=8 format=3 uid="uid://bj0ewxky3l1u"]
 
-[ext_resource type="FontFile" uid="uid://8xttcfq6fpbm" path="res://font/mine-sweeper.ttf" id="1_4jing"]
+[ext_resource type="FontFile" uid="uid://8xttcfq6fpbm" path="res://font/mine-sweeper.ttf" id="4_e7u2e"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_j82b6"]
 
@@ -18,7 +18,7 @@ bg_color = Color(0, 0, 0, 0.247059)
 bg_color = Color(0.752941, 0.752941, 0.752941, 1)
 
 [resource]
-default_font = ExtResource("1_4jing")
+default_font = ExtResource("4_e7u2e")
 Button/colors/font_color = Color(0, 0, 0, 1)
 Button/colors/font_disabled_color = Color(0, 0, 0, 0.501961)
 Button/colors/font_focus_color = Color(0, 0, 0, 1)

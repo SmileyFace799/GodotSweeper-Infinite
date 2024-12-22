@@ -8,6 +8,8 @@ public class BoardInterface : FileInterface<BoardModel>, BoardUpdateListener {
 
     protected override BoardModel Default => new();
 
+    public ulong OpenedSquareCount => Value.OpenedSquareCount;
+
     public BoardInterface(string path) : base(path) {}
 
     public void OnSquareUpdated(Position position, SquareModel square) {

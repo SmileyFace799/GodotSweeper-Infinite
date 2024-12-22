@@ -1,0 +1,62 @@
+[gd_scene load_steps=8 format=3 uid="uid://7taux0ppaaar"]
+
+[ext_resource type="Theme" uid="uid://bj0ewxky3l1u" path="res://resources/themes/BaseTheme.tres" id="1_040dq"]
+[ext_resource type="Texture2D" uid="uid://dclbuiw60g1dw" path="res://resources/images/arrowRIght.png" id="1_qsp23"]
+[ext_resource type="Texture2D" uid="uid://cs0dssv25qukp" path="res://resources/images/arrowDown.png" id="2_4u031"]
+[ext_resource type="Script" path="res://code/scripts/SideBarAdvDetails.cs" id="2_uncg3"]
+[ext_resource type="Theme" uid="uid://7ail54mvdkh2" path="res://resources/themes/RedText.tres" id="3_772ug"]
+[ext_resource type="Theme" uid="uid://c3ayyaow6vaua" path="res://resources/themes/DarkBlueText.tres" id="4_jywbe"]
+[ext_resource type="Theme" uid="uid://crqgfkd2ce4xk" path="res://resources/themes/DarkRedText.tres" id="7_8skyf"]
+
+[node name="SideBarAdvDetails" type="GridContainer"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 16.0
+grow_horizontal = 2
+theme = ExtResource("1_040dq")
+columns = 2
+script = ExtResource("2_uncg3")
+
+[node name="ExpandButton" type="CheckButton" parent="."]
+layout_mode = 2
+theme_override_icons/checked = ExtResource("2_4u031")
+theme_override_icons/unchecked = ExtResource("1_qsp23")
+flat = true
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+theme = ExtResource("3_772ug")
+text = "Advanced details"
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 2
+
+[node name="ItemsContainer" type="VBoxContainer" parent="."]
+visible = false
+layout_mode = 2
+
+[node name="GoodChanceContainer" type="HBoxContainer" parent="ItemsContainer"]
+layout_mode = 2
+theme = ExtResource("4_jywbe")
+
+[node name="GoodChanceText" type="Label" parent="ItemsContainer/GoodChanceContainer"]
+layout_mode = 2
+text = "Good Chance: "
+
+[node name="GoodChanceValue" type="Label" parent="ItemsContainer/GoodChanceContainer"]
+layout_mode = 2
+text = "0%"
+
+[node name="BadChanceContainer" type="HBoxContainer" parent="ItemsContainer"]
+layout_mode = 2
+theme = ExtResource("7_8skyf")
+
+[node name="BadChanceText" type="Label" parent="ItemsContainer/BadChanceContainer"]
+layout_mode = 2
+text = "Bad Chance: "
+
+[node name="BadChanceValue" type="Label" parent="ItemsContainer/BadChanceContainer"]
+layout_mode = 2
+text = "0%"
+
+[connection signal="toggled" from="ExpandButton" to="." method="OnExpandButtonToggled"]
