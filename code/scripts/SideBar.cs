@@ -1,35 +1,80 @@
 using Godot;
+using SmileyFace799.RogueSweeper.events;
+using SmileyFace799.RogueSweeper.model;
 using System;
 
-public partial class SideBar : CanvasLayer {
-	private Label _openedSquaresLabel;
-	private Label _livesLabel;
-	private Label _badChanceLabel;
-	private Label _goodChanceLabel;
+namespace SmileyFace799.RogueSweeper.Godot
+{
+	public partial class SideBar : CanvasLayer, IUIEventReceiver
+	{
+		private Label _openedSquaresLabel;
+		private Label _livesLabel;
+		private Label _badChanceLabel;
+		private Label _goodChanceLabel;
 
-	// Called when the node enters the scene tree for the first time.
-	public override void _Ready() {
-		_openedSquaresLabel = (Label) FindChild("OpenedSquaresValue");
-		_livesLabel = (Label) FindChild("LivesValue");
-		_badChanceLabel = (Label) FindChild("BadChanceValue");
-		_goodChanceLabel = (Label) FindChild("GoodChanceValue");
-	}
+		private Label _extraLivesLabel;
+		private Label _badChanceModifierLabel;
+		
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta) {
-	}
+		private Position _hoveredSquare = new(0, 0);
+		private Position HoveredSquare {get => _hoveredSquare; set {
+			_hoveredSquare = value;
+			UpdateHoveredInfo();
+		}}
 
-	public void OnBoardSquaresOpenedUpdated(ulong squaresOpened) {
-		_openedSquaresLabel.Text = squaresOpened.ToString();
-	}
+		// Called when the node enters the scene tree for the first time.
+		public override void _Ready()
+		{
+			_openedSquaresLabel = (Label) FindChild("OpenedSquaresValue");
+			_livesLabel = (Label) FindChild("LivesValue");
+			_badChanceLabel = (Label) FindChild("BadChanceValue");
+			_goodChanceLabel = (Label) FindChild("GoodChanceValue");
+			_extraLivesLabel = (Label) FindChild("ExtraLivesValue");
+			_badChanceModifierLabel = (Label) FindChild("BadChanceModifierValue");
 
-	public void OnBoardLivesUpdated(int lives) {
-		_livesLabel.Text = lives.ToString();
-	}
+			Game.Instance.AddReceiver(this);
+		}
 
-	public void OnBoardHoveredSquareUpdated(long x, long y, double badChanceReduction) {
-		BoardModel.SquareGenData genData = new BoardModel.RelativeGenData(badChanceReduction);
-		_badChanceLabel.Text = Math.Clamp(genData.GetBadChance(new(x, y)), 0, 1).ToString("P");
-		_goodChanceLabel.Text = Math.Clamp(genData.GetGoodChance(new(x, y)), 0, 1).ToString("P");
+		public void OnBoardHoveredSquareUpdated(int x, int y) => HoveredSquare = new(x, y);
+
+		private void UpdateHoveredInfo()
+		{
+			SquareGenData genData = Game.Instance.StandardGenData;
+			_badChanceLabel.Text = Math.Clamp(genData.GetBadChance(HoveredSquare), 0, 1).ToString("P");
+			_goodChanceLabel.Text = Math.Clamp(genData.GetGoodChance(HoveredSquare), 0, 1).ToString("P");
+		}
+
+		private void OnLivesUpdated(int lives, int livesGained)
+		{
+			_livesLabel.Text = lives.ToString();
+			_extraLivesLabel.Text = livesGained.ToString();
+		}
+
+		private void OnBadChanceModifierUpdated(double badChanceModifier) {
+			_badChanceModifierLabel.Text = badChanceModifier.ToString("P");
+			UpdateHoveredInfo();
+		}
+
+		private void OnOpenedSquaresUpdated(ulong squaresOpened) => _openedSquaresLabel.Text = squaresOpened.ToString();
+
+		public void OnUpdateUI(IUIUpdateEvent @event)
+		{
+			switch (@event) {
+				case NewGameLoadedEvent nglEvent:
+					OnLivesUpdated(nglEvent.Stats.Lives, nglEvent.Stats.LivesGained);
+					OnBadChanceModifierUpdated(nglEvent.Stats.BadChanceModifier);
+					OnOpenedSquaresUpdated(nglEvent.Stats.OpenedSquares);
+					break;
+				case LivesUpdatedEvent luEvent:
+					OnLivesUpdated(luEvent.Lives, luEvent.LivesGained);
+					break;
+				case BadChanceModifierUpdatedEvent bcmuEvent:
+					OnBadChanceModifierUpdated(bcmuEvent.BadChanceModifier);
+					break;
+				case OpenedSquaresUpdatedEvent osuEvent:
+					OnOpenedSquaresUpdated(osuEvent.OpenedSquares);
+					break;
+			}
+		}
 	}
 }

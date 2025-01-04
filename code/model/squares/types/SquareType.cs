@@ -1,20 +1,23 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
-public abstract class SquareType {
-    public abstract double Weight {get;}
+namespace SmileyFace799.RogueSweeper.model
+{
+    public abstract class SquareType : Switchable
+    {
+        public abstract double Weight {get;}
+        public TypeLevel Level {get;}
 
-    private static readonly Random RANDOM = new();
+        protected SquareType(TypeLevel level) => Level = level;
+    }
 
-    protected static T GetRandom<T>(params T[] squareTypes) where T : SquareType {
-        List<double> weights = squareTypes.Select(t => t.Weight).ToList();
-        double random = RANDOM.NextDouble() * weights.Sum();
-        int i = 0;
-        while (random >= weights[i]) {
-            random -= weights[i];
-            ++i;
-        }
-        return squareTypes[i];
+    /// <summary>
+    /// Represents the level of "severity" of a square.
+    /// </summary>
+    public enum TypeLevel
+    {
+        BAD = -1,
+        NEUTRAL = 0,
+        GOOD = 1
     }
 }

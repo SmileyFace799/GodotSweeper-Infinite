@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://rk6pw0l6dvdb"
-path="res://.godot/imported/squares_copy.png-5c482031427d8d4fbb28121487c24bba.ctex"
+uid="uid://c8iihgghccr75"
+path="res://.godot/imported/new class diagram.png-d9ad37dfe226f4cff3b86ef9c65caaaf.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://resources/images/squares_copy.png"
-dest_files=["res://.godot/imported/squares_copy.png-5c482031427d8d4fbb28121487c24bba.ctex"]
+source_file="res://Project docs/new class diagram.png"
+dest_files=["res://.godot/imported/new class diagram.png-d9ad37dfe226f4cff3b86ef9c65caaaf.ctex"]
 
 [params]
 

@@ -1,0 +1,374 @@
+[gd_scene load_steps=34 format=3 uid="uid://c3efgi8veohps"]
+
+[ext_resource type="Theme" uid="uid://bj0ewxky3l1u" path="res://resources/themes/BaseTheme.tres" id="1_f0srf"]
+[ext_resource type="Script" path="res://code/scripts/SideBarPowerUps.cs" id="2_ay6ra"]
+[ext_resource type="PackedScene" uid="uid://bu8k2h3qo33jk" path="res://scenes/frame/InnerFrameLarge.tscn" id="3_0edga"]
+[ext_resource type="PackedScene" uid="uid://b53pe43l26qog" path="res://scenes/frame/InnerFrameBounds.tscn" id="4_2otfb"]
+[ext_resource type="Theme" uid="uid://b7q0c4yh5fqw1" path="res://resources/themes/BlueText.tres" id="5_o3il7"]
+[ext_resource type="Texture2D" uid="uid://cvudnysviyxnh" path="res://resources/images/buttons.bmp" id="6_asg8p"]
+[ext_resource type="Theme" uid="uid://carvxdmuv4y4j" path="res://resources/themes/GreenText.tres" id="7_v7axb"]
+[ext_resource type="Theme" uid="uid://7ail54mvdkh2" path="res://resources/themes/RedText.tres" id="8_b6886"]
+[ext_resource type="ButtonGroup" uid="uid://cseq2gq32pcqm" path="res://resources/powerUpButtonGroup.tres" id="9_avwv0"]
+[ext_resource type="Theme" uid="uid://c3ayyaow6vaua" path="res://resources/themes/DarkBlueText.tres" id="10_6ougo"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d3q13"]
+atlas = ExtResource("6_asg8p")
+region = Rect2(104, 0, 26, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_it1ix"]
+atlas = ExtResource("6_asg8p")
+region = Rect2(104, 26, 26, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mwptk"]
+atlas = ExtResource("6_asg8p")
+region = Rect2(130, 0, 26, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bpqy6"]
+atlas = ExtResource("6_asg8p")
+region = Rect2(130, 26, 26, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sgtd6"]
+atlas = ExtResource("6_asg8p")
+region = Rect2(130, 52, 26, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cio6r"]
+atlas = ExtResource("6_asg8p")
+region = Rect2(156, 0, 26, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tgn4a"]
+atlas = ExtResource("6_asg8p")
+region = Rect2(156, 26, 26, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lr1dl"]
+atlas = ExtResource("6_asg8p")
+region = Rect2(156, 52, 26, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jckum"]
+atlas = ExtResource("6_asg8p")
+region = Rect2(182, 0, 26, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tlwl1"]
+atlas = ExtResource("6_asg8p")
+region = Rect2(182, 26, 26, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_47x61"]
+atlas = ExtResource("6_asg8p")
+region = Rect2(182, 52, 26, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k02b0"]
+atlas = ExtResource("6_asg8p")
+region = Rect2(208, 0, 26, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f0fmn"]
+atlas = ExtResource("6_asg8p")
+region = Rect2(208, 26, 26, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e1cps"]
+atlas = ExtResource("6_asg8p")
+region = Rect2(208, 52, 26, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_omm3b"]
+atlas = ExtResource("6_asg8p")
+region = Rect2(234, 0, 26, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ltvm2"]
+atlas = ExtResource("6_asg8p")
+region = Rect2(234, 26, 26, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_300p7"]
+atlas = ExtResource("6_asg8p")
+region = Rect2(234, 52, 26, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rs4m2"]
+atlas = ExtResource("6_asg8p")
+region = Rect2(260, 0, 26, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tsp52"]
+atlas = ExtResource("6_asg8p")
+region = Rect2(260, 26, 26, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gwkpm"]
+atlas = ExtResource("6_asg8p")
+region = Rect2(260, 52, 26, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_becfl"]
+atlas = ExtResource("6_asg8p")
+region = Rect2(286, 0, 26, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pcwr5"]
+atlas = ExtResource("6_asg8p")
+region = Rect2(286, 26, 26, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qsw60"]
+atlas = ExtResource("6_asg8p")
+region = Rect2(286, 52, 26, 26)
+
+[node name="SideBarPowerUps" type="MarginContainer"]
+texture_filter = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("1_f0srf")
+script = ExtResource("2_ay6ra")
+
+[node name="InnerFrameLarge" parent="." instance=ExtResource("3_0edga")]
+layout_mode = 2
+
+[node name="InnerFrameBounds" parent="." instance=ExtResource("4_2otfb")]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="InnerFrameBounds"]
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="PowerupsContainer" type="VBoxContainer" parent="InnerFrameBounds/ScrollContainer"]
+layout_mode = 2
+
+[node name="ExtraLivesContainer" type="HBoxContainer" parent="InnerFrameBounds/ScrollContainer/PowerupsContainer"]
+layout_mode = 2
+theme = ExtResource("5_o3il7")
+
+[node name="ExtraLivesImage" type="TextureRect" parent="InnerFrameBounds/ScrollContainer/PowerupsContainer/ExtraLivesContainer"]
+custom_minimum_size = Vector2(52, 52)
+layout_mode = 2
+texture = SubResource("AtlasTexture_d3q13")
+
+[node name="ExtraLivesText" type="Label" parent="InnerFrameBounds/ScrollContainer/PowerupsContainer/ExtraLivesContainer"]
+layout_mode = 2
+text = "Extra lives: "
+
+[node name="ExtraLivesValue" type="Label" parent="InnerFrameBounds/ScrollContainer/PowerupsContainer/ExtraLivesContainer"]
+layout_mode = 2
+text = "0"
+
+[node name="BadChanceReductionContainer" type="HBoxContainer" parent="InnerFrameBounds/ScrollContainer/PowerupsContainer"]
+layout_mode = 2
+theme = ExtResource("7_v7axb")
+
+[node name="BacChanceModifierImage" type="TextureRect" parent="InnerFrameBounds/ScrollContainer/PowerupsContainer/BadChanceReductionContainer"]
+custom_minimum_size = Vector2(52, 52)
+layout_mode = 2
+texture = SubResource("AtlasTexture_it1ix")
+
+[node name="BadChanceModifierText" type="Label" parent="InnerFrameBounds/ScrollContainer/PowerupsContainer/BadChanceReductionContainer"]
+layout_mode = 2
+text = "Bad% mod.:"
+
+[node name="BadChanceModifierValue" type="Label" parent="InnerFrameBounds/ScrollContainer/PowerupsContainer/BadChanceReductionContainer"]
+layout_mode = 2
+text = "0"
+
+[node name="SolverContainer" type="VBoxContainer" parent="InnerFrameBounds/ScrollContainer/PowerupsContainer"]
+layout_mode = 2
+theme = ExtResource("8_b6886")
+
+[node name="SolverText" type="Label" parent="InnerFrameBounds/ScrollContainer/PowerupsContainer/SolverContainer"]
+layout_mode = 2
+text = "Solvers:"
+
+[node name="Variants" type="VBoxContainer" parent="InnerFrameBounds/ScrollContainer/PowerupsContainer/SolverContainer"]
+layout_mode = 2
+
+[node name="SolverSmallContainer" type="HBoxContainer" parent="InnerFrameBounds/ScrollContainer/PowerupsContainer/SolverContainer/Variants"]
+layout_mode = 2
+
+[node name="-" type="Label" parent="InnerFrameBounds/ScrollContainer/PowerupsContainer/SolverContainer/Variants/SolverSmallContainer"]
+layout_mode = 2
+text = "-"
+
+[node name="SolverSmallButton" type="TextureButton" parent="InnerFrameBounds/ScrollContainer/PowerupsContainer/SolverContainer/Variants/SolverSmallContainer"]
+custom_minimum_size = Vector2(52, 52)
+layout_mode = 2
+disabled = true
+toggle_mode = true
+button_group = ExtResource("9_avwv0")
+texture_normal = SubResource("AtlasTexture_mwptk")
+texture_pressed = SubResource("AtlasTexture_bpqy6")
+texture_disabled = SubResource("AtlasTexture_sgtd6")
+stretch_mode = 0
+
+[node name="X" type="Label" parent="InnerFrameBounds/ScrollContainer/PowerupsContainer/SolverContainer/Variants/SolverSmallContainer"]
+layout_mode = 2
+text = "x"
+
+[node name="SolverSmallValue" type="Label" parent="InnerFrameBounds/ScrollContainer/PowerupsContainer/SolverContainer/Variants/SolverSmallContainer"]
+layout_mode = 2
+text = "0"
+
+[node name="SolverMediumContainer" type="HBoxContainer" parent="InnerFrameBounds/ScrollContainer/PowerupsContainer/SolverContainer/Variants"]
+layout_mode = 2
+
+[node name="-" type="Label" parent="InnerFrameBounds/ScrollContainer/PowerupsContainer/SolverContainer/Variants/SolverMediumContainer"]
+layout_mode = 2
+text = "-"
+
+[node name="SolverMediumButton" type="TextureButton" parent="InnerFrameBounds/ScrollContainer/PowerupsContainer/SolverContainer/Variants/SolverMediumContainer"]
+custom_minimum_size = Vector2(52, 52)
+layout_mode = 2
+disabled = true
+toggle_mode = true
+button_group = ExtResource("9_avwv0")
+texture_normal = SubResource("AtlasTexture_cio6r")
+texture_pressed = SubResource("AtlasTexture_tgn4a")
+texture_disabled = SubResource("AtlasTexture_lr1dl")
+stretch_mode = 0
+
+[node name="X" type="Label" parent="InnerFrameBounds/ScrollContainer/PowerupsContainer/SolverContainer/Variants/SolverMediumContainer"]
+layout_mode = 2
+text = "x"
+
+[node name="SolverMediumValue" type="Label" parent="InnerFrameBounds/ScrollContainer/PowerupsContainer/SolverContainer/Variants/SolverMediumContainer"]
+layout_mode = 2
+text = "0"
+
+[node name="SOlverLargeContainer" type="HBoxContainer" parent="InnerFrameBounds/ScrollContainer/PowerupsContainer/SolverContainer/Variants"]
+layout_mode = 2
+
+[node name="-" type="Label" parent="InnerFrameBounds/ScrollContainer/PowerupsContainer/SolverContainer/Variants/SOlverLargeContainer"]
+layout_mode = 2
+text = "-"
+
+[node name="SolverLargeButton" type="TextureButton" parent="InnerFrameBounds/ScrollContainer/PowerupsContainer/SolverContainer/Variants/SOlverLargeContainer"]
+custom_minimum_size = Vector2(52, 52)
+layout_mode = 2
+disabled = true
+toggle_mode = true
+button_group = ExtResource("9_avwv0")
+texture_normal = SubResource("AtlasTexture_jckum")
+texture_pressed = SubResource("AtlasTexture_tlwl1")
+texture_disabled = SubResource("AtlasTexture_47x61")
+stretch_mode = 0
+
+[node name="X" type="Label" parent="InnerFrameBounds/ScrollContainer/PowerupsContainer/SolverContainer/Variants/SOlverLargeContainer"]
+layout_mode = 2
+text = "x"
+
+[node name="SolverLargeValue" type="Label" parent="InnerFrameBounds/ScrollContainer/PowerupsContainer/SolverContainer/Variants/SOlverLargeContainer"]
+layout_mode = 2
+text = "0"
+
+[node name="VoidContainer" type="VBoxContainer" parent="InnerFrameBounds/ScrollContainer/PowerupsContainer"]
+visible = false
+layout_mode = 2
+theme = ExtResource("10_6ougo")
+
+[node name="VoidText" type="Label" parent="InnerFrameBounds/ScrollContainer/PowerupsContainer/VoidContainer"]
+layout_mode = 2
+text = "Voids:"
+
+[node name="Variants" type="VBoxContainer" parent="InnerFrameBounds/ScrollContainer/PowerupsContainer/VoidContainer"]
+layout_mode = 2
+
+[node name="VoidSmallContainer" type="HBoxContainer" parent="InnerFrameBounds/ScrollContainer/PowerupsContainer/VoidContainer/Variants"]
+layout_mode = 2
+
+[node name="-" type="Label" parent="InnerFrameBounds/ScrollContainer/PowerupsContainer/VoidContainer/Variants/VoidSmallContainer"]
+layout_mode = 2
+text = "-"
+
+[node name="VoidSmallButton" type="TextureButton" parent="InnerFrameBounds/ScrollContainer/PowerupsContainer/VoidContainer/Variants/VoidSmallContainer"]
+custom_minimum_size = Vector2(52, 52)
+layout_mode = 2
+disabled = true
+toggle_mode = true
+button_group = ExtResource("9_avwv0")
+texture_normal = SubResource("AtlasTexture_k02b0")
+texture_pressed = SubResource("AtlasTexture_f0fmn")
+texture_disabled = SubResource("AtlasTexture_e1cps")
+stretch_mode = 0
+
+[node name="X" type="Label" parent="InnerFrameBounds/ScrollContainer/PowerupsContainer/VoidContainer/Variants/VoidSmallContainer"]
+layout_mode = 2
+text = "x"
+
+[node name="VoidSmallValue" type="Label" parent="InnerFrameBounds/ScrollContainer/PowerupsContainer/VoidContainer/Variants/VoidSmallContainer"]
+layout_mode = 2
+text = "0"
+
+[node name="VoidMediumContainer" type="HBoxContainer" parent="InnerFrameBounds/ScrollContainer/PowerupsContainer/VoidContainer/Variants"]
+layout_mode = 2
+
+[node name="-" type="Label" parent="InnerFrameBounds/ScrollContainer/PowerupsContainer/VoidContainer/Variants/VoidMediumContainer"]
+layout_mode = 2
+text = "-"
+
+[node name="VoidMediumButton" type="TextureButton" parent="InnerFrameBounds/ScrollContainer/PowerupsContainer/VoidContainer/Variants/VoidMediumContainer"]
+custom_minimum_size = Vector2(52, 52)
+layout_mode = 2
+disabled = true
+toggle_mode = true
+button_group = ExtResource("9_avwv0")
+texture_normal = SubResource("AtlasTexture_omm3b")
+texture_pressed = SubResource("AtlasTexture_ltvm2")
+texture_disabled = SubResource("AtlasTexture_300p7")
+stretch_mode = 0
+
+[node name="X" type="Label" parent="InnerFrameBounds/ScrollContainer/PowerupsContainer/VoidContainer/Variants/VoidMediumContainer"]
+layout_mode = 2
+text = "x"
+
+[node name="VoidMediumValue" type="Label" parent="InnerFrameBounds/ScrollContainer/PowerupsContainer/VoidContainer/Variants/VoidMediumContainer"]
+layout_mode = 2
+text = "0"
+
+[node name="VoidLargeContainer" type="HBoxContainer" parent="InnerFrameBounds/ScrollContainer/PowerupsContainer/VoidContainer/Variants"]
+layout_mode = 2
+
+[node name="-" type="Label" parent="InnerFrameBounds/ScrollContainer/PowerupsContainer/VoidContainer/Variants/VoidLargeContainer"]
+layout_mode = 2
+text = "-"
+
+[node name="VoidLargeButton" type="TextureButton" parent="InnerFrameBounds/ScrollContainer/PowerupsContainer/VoidContainer/Variants/VoidLargeContainer"]
+custom_minimum_size = Vector2(52, 52)
+layout_mode = 2
+disabled = true
+toggle_mode = true
+button_group = ExtResource("9_avwv0")
+texture_normal = SubResource("AtlasTexture_rs4m2")
+texture_pressed = SubResource("AtlasTexture_tsp52")
+texture_disabled = SubResource("AtlasTexture_gwkpm")
+stretch_mode = 0
+
+[node name="X" type="Label" parent="InnerFrameBounds/ScrollContainer/PowerupsContainer/VoidContainer/Variants/VoidLargeContainer"]
+layout_mode = 2
+text = "x"
+
+[node name="VoidLargeValue" type="Label" parent="InnerFrameBounds/ScrollContainer/PowerupsContainer/VoidContainer/Variants/VoidLargeContainer"]
+layout_mode = 2
+text = "0"
+
+[node name="DefuseContainer" type="HBoxContainer" parent="InnerFrameBounds/ScrollContainer/PowerupsContainer"]
+layout_mode = 2
+theme = ExtResource("10_6ougo")
+
+[node name="DefuseText" type="Label" parent="InnerFrameBounds/ScrollContainer/PowerupsContainer/DefuseContainer"]
+layout_mode = 2
+text = "Defuses:"
+
+[node name="DefuseButton" type="TextureButton" parent="InnerFrameBounds/ScrollContainer/PowerupsContainer/DefuseContainer"]
+custom_minimum_size = Vector2(52, 52)
+layout_mode = 2
+disabled = true
+toggle_mode = true
+button_group = ExtResource("9_avwv0")
+texture_normal = SubResource("AtlasTexture_becfl")
+texture_pressed = SubResource("AtlasTexture_pcwr5")
+texture_disabled = SubResource("AtlasTexture_qsw60")
+stretch_mode = 0
+
+[node name="X" type="Label" parent="InnerFrameBounds/ScrollContainer/PowerupsContainer/DefuseContainer"]
+layout_mode = 2
+text = "X"
+
+[node name="DefuseValue" type="Label" parent="InnerFrameBounds/ScrollContainer/PowerupsContainer/DefuseContainer"]
+layout_mode = 2
+text = "0"
+
+[connection signal="toggled" from="InnerFrameBounds/ScrollContainer/PowerupsContainer/SolverContainer/Variants/SolverSmallContainer/SolverSmallButton" to="." method="OnSolverSmallButtonToggled"]
+[connection signal="toggled" from="InnerFrameBounds/ScrollContainer/PowerupsContainer/SolverContainer/Variants/SolverMediumContainer/SolverMediumButton" to="." method="OnSolverMediumButtonToggled"]
+[connection signal="toggled" from="InnerFrameBounds/ScrollContainer/PowerupsContainer/SolverContainer/Variants/SOlverLargeContainer/SolverLargeButton" to="." method="OnSolverLargeButtonToggled"]
+[connection signal="toggled" from="InnerFrameBounds/ScrollContainer/PowerupsContainer/DefuseContainer/DefuseButton" to="." method="OnDefuseButtonToggled"]

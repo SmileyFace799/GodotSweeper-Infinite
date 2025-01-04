@@ -1,28 +1,31 @@
-using System;
-using System.Linq;
+namespace SmileyFace799.RogueSweeper.model
+{
+    public class SpecialSquareType : SquareType
+    {
+        public static readonly SpecialSquareType BOMB = new(1, TypeLevel.BAD);
+        public static readonly SpecialSquareType LIFE = new(2, TypeLevel.GOOD);
+        public static readonly SpecialSquareType BAD_CHANCE_MODIFIER = new(3, TypeLevel.GOOD);
 
-public class SpecialSquareType : SquareType {
-    public bool IsBad {get;}
-    public override double Weight {get;}
+        public override double Weight {get;}
 
-    public static readonly SpecialSquareType BOMB = new(1, true);
-    public static readonly SpecialSquareType LIFE = new(1, false);
-    public static readonly SpecialSquareType MINECHANCE_REDUCTION = new(1, false);
-
-    public static readonly SpecialSquareType[] ALL_BAD = new SpecialSquareType[]{BOMB};
-    public static readonly SpecialSquareType[] ALL_GOOD = new SpecialSquareType[]{LIFE, MINECHANCE_REDUCTION};
-    public static readonly SpecialSquareType[] ALL = ALL_BAD.Union(ALL_GOOD).ToArray();
-
-    private SpecialSquareType(double weight, bool isBad) {
-        Weight = weight;
-        IsBad = isBad;
+        protected SpecialSquareType(double weight, TypeLevel level) : base(level)
+        {
+            Weight = weight;
+        }
     }
 
-    public static SpecialSquareType GetRandomBad() {
-        return GetRandom(ALL_BAD);
-    }
+    public class PowerUpSquareType : SpecialSquareType
+    {
+        public static readonly PowerUpSquareType SOLVER_SMALL = new(5, PowerUp.SOLVER_SMALL);
+        public static readonly PowerUpSquareType SOLVER_MEDIUM = new(3, PowerUp.SOLVER_MEDIUM);
+        public static readonly PowerUpSquareType SOLVER_LARGE = new(1, PowerUp.SOLVER_LARGE);
+        public static readonly PowerUpSquareType DEFUSER = new(4, PowerUp.DEFUSER);
 
-    public static SpecialSquareType GetRandomGood() {
-        return GetRandom(ALL_GOOD);
+        public PowerUp PowerUp {get;}
+
+        private PowerUpSquareType(double weight, PowerUp powerUp) : base(weight, TypeLevel.GOOD)
+        {
+            PowerUp = powerUp;
+        }
     }
 }

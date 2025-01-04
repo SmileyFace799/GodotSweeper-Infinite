@@ -1,22 +1,40 @@
 using System;
 using System.Linq;
+using SmileyFace799.RogueSweeper.model;
 
-public class StatsInterface : FileInterface<StatsModel> {
+namespace SmileyFace799.RogueSweeper.filestorage {
+public class StatsInterface : FileInterface<Stats> {
     public StatsInterface(string path) : base(path) {}
 
-    protected override StatsModel Default => StatsModel.GetStartingStats();
+    protected override Stats Default => new();
 
-    public int Lives => Value.Lives;
-    public double MinechanceReduction => Value.MinechanceReduction;
-    public bool Alive => Value.Alive;
+    public ImmutableStats StatsView => Value;
 
-    public override StatsModel FromBytes(ByteEnumerator bytes){
-        return new(BitConverter.ToInt32(bytes.Next(4)), BitConverter.ToDouble(bytes.Next(8)));
+    public override Stats FromBytes(ByteEnumerator bytes) {
+        return new(
+            BitConverter.ToInt32(bytes.Next(4)),
+            BitConverter.ToInt32(bytes.Next(4)),
+            BitConverter.ToInt32(bytes.Next(4)),
+            BitConverter.ToDouble(bytes.Next(8)),
+            BitConverter.ToUInt64(bytes.Next(8)),
+            BitConverter.ToUInt32(bytes.Next(4)),
+            BitConverter.ToUInt32(bytes.Next(4)),
+            BitConverter.ToUInt32(bytes.Next(4)),
+            BitConverter.ToUInt32(bytes.Next(4))
+        );
     }
 
-    public override byte[] ToBytes(StatsModel value){
+    public override byte[] ToBytes(Stats value) {
         return BitConverter.GetBytes(Value.Lives)
-            .Concat(BitConverter.GetBytes(Value.MinechanceReduction))
+            .Concat(BitConverter.GetBytes(Value.LivesGained))
+            .Concat(BitConverter.GetBytes(Value.LivesLost))
+            .Concat(BitConverter.GetBytes(Value.BadChanceModifier))
+            .Concat(BitConverter.GetBytes(Value.OpenedSquares))
+            .Concat(BitConverter.GetBytes(Value.SmallSolvers))
+            .Concat(BitConverter.GetBytes(Value.MediumSolvers))
+            .Concat(BitConverter.GetBytes(Value.LargeSolvers))
+            .Concat(BitConverter.GetBytes(Value.Defusers))
             .ToArray();
     }
+}
 }

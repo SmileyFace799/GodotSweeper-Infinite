@@ -28,7 +28,7 @@ layout_mode = 2
 theme = ExtResource("3_772ug")
 text = "Advanced details"
 
-[node name="Control" type="Control" parent="."]
+[node name="(Empty)" type="Control" parent="."]
 layout_mode = 2
 
 [node name="ItemsContainer" type="VBoxContainer" parent="."]
