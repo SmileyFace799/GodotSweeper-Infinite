@@ -14,7 +14,6 @@ public class StatsInterface : FileInterface<Stats> {
         return new(
             BitConverter.ToInt32(bytes.Next(4)),
             BitConverter.ToInt32(bytes.Next(4)),
-            BitConverter.ToInt32(bytes.Next(4)),
             BitConverter.ToDouble(bytes.Next(8)),
             BitConverter.ToUInt64(bytes.Next(8)),
             BitConverter.ToUInt32(bytes.Next(4)),
@@ -25,8 +24,7 @@ public class StatsInterface : FileInterface<Stats> {
     }
 
     public override byte[] ToBytes(Stats value) {
-        return BitConverter.GetBytes(Value.Lives)
-            .Concat(BitConverter.GetBytes(Value.LivesGained))
+        return BitConverter.GetBytes(Value.LivesGained)
             .Concat(BitConverter.GetBytes(Value.LivesLost))
             .Concat(BitConverter.GetBytes(Value.BadChanceModifier))
             .Concat(BitConverter.GetBytes(Value.OpenedSquares))

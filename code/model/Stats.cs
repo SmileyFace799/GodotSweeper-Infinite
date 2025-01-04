@@ -16,11 +16,12 @@ namespace SmileyFace799.RogueSweeper.model
 
     public class Stats : ImmutableStats
     {
+        private const int STARTING_LIVES = 1;
+
         private int _livesGained;
         private int _livesLost;
-        private int _startingLives;
 
-        public int Lives {get => _startingLives + _livesGained - _livesLost; set {
+        public int Lives {get => STARTING_LIVES + _livesGained - _livesLost; set {
             int change = value - Lives;
             if (change > 0) {
                 _livesGained += change;
@@ -39,10 +40,9 @@ namespace SmileyFace799.RogueSweeper.model
         public uint Defusers {get; set;}
 
         public Stats(
-            int startingLives=1,
             int livesGained=0,
             int livesLost=0,
-            double minechanceReduction=0,
+            double badChanceModifier=0,
             ulong openedSquares=0,
             uint smallSolvers=0,
             uint mediumSolvers=0,
@@ -51,9 +51,8 @@ namespace SmileyFace799.RogueSweeper.model
         ) {
             _livesGained = livesGained;
             _livesLost = livesLost;
-            _startingLives = startingLives;
 
-            BadChanceModifier = minechanceReduction;
+            BadChanceModifier = badChanceModifier;
             OpenedSquares = openedSquares;
             SmallSolvers = smallSolvers;
             MediumSolvers = mediumSolvers;
@@ -62,9 +61,9 @@ namespace SmileyFace799.RogueSweeper.model
         }
 
         public override string ToString() => GetType().Name + "{"
-            + "Lives=" + Lives
+            + "LivesGained=" + LivesGained
+            + ", LivesLost=" + LivesLost
             + ", BadChanceModifier=" + BadChanceModifier
-            + ", Alive=" + Alive
             + ", OpenedSquares=" + OpenedSquares
             + ", SmallSolvers=" + SmallSolvers
             + ", MediumSolvers=" + MediumSolvers

@@ -35,6 +35,13 @@ namespace SmileyFace799.RogueSweeper.Godot
 			Game.Instance.AddReceiver(this);
 		}
 
+		public override void _Notification(int what)
+        {
+			if (what == NotificationPredelete) {
+				Game.Instance.RemoveReceiver(this);
+			}
+        }
+
 		public void OnBoardHoveredSquareUpdated(int x, int y) => HoveredSquare = new(x, y);
 
 		private void UpdateHoveredInfo()

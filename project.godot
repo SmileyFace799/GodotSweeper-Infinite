@@ -11,9 +11,17 @@ config_version=5
 [application]
 
 config/name="GodotSweeper Infinite"
+config/version="1.0"
 run/main_scene="res://scenes/MainMenu.tscn"
 config/features=PackedStringArray("4.2", "C#", "Forward Plus")
+boot_splash/bg_color=Color(0.752941, 0.752941, 0.752941, 1)
+boot_splash/image="res://resources/images/Title.png"
+boot_splash/fullsize=false
 config/icon="res://icon.svg"
+
+[autoload]
+
+Global="*res://code/scripts/Global.cs"
 
 [display]
 
@@ -23,3 +31,7 @@ window/stretch/aspect="expand"
 [dotnet]
 
 project/assembly_name="GodotSweeper Infinite"
+
+[filesystem]
+
+import/blender/enabled=false

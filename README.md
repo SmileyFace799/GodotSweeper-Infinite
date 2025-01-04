@@ -12,7 +12,7 @@
     <li>Create a runnable project with core Minesweeper gameplay: ✅</li>
     <li>Create a playable infinite Minesweeper game: ✅</li>
     <li>Add simple roguelike elements to the game: ✅</li>
-    <li>Playtesting & bugtesting, finished & playable MVP created: 🟨</li>
+    <li>Playtesting & bugtesting, finished & playable MVP created: ✅</li>
 </ol></p>
 
 ## Features
@@ -53,6 +53,7 @@ It does not cover standard Minesweeper mechanics, as those are implicitly includ
     <li>Save & load functionality, persistent storage: ✅</li>
     <li>Upgrades <del>that persist between games</del>: ✅</li>
     <li>Movable & zoomable camera: ✅</li>
+    <li>Game can be restarted: ✅</li>
     <li>Basic functional UI: ✅<ul>
         <li>Main Menu / Title screen: ✅</li>
         <li>Pause screen: ✅</li>

@@ -27,5 +27,6 @@ namespace SmileyFace799.RogueSweeper.events
     public record MediumSolversUpdatedEvent(uint MediumSolvers) : IUIUpdateEvent {}
     public record LargeSolversUpdatedEvent(uint LargeSolvers) : IUIUpdateEvent {}
     public record DefusersUpdatedEvent(uint Defusers) : IUIUpdateEvent {}
-    public record PowerUpDeselectedEvent() : IUIUpdateEvent {}
+    public class PowerUpDeselectedEvent : IUIUpdateEvent {}
+    public class GameRestartedEvent : IUIUpdateEvent {}
 }

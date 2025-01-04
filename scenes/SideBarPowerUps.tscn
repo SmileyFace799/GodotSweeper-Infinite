@@ -160,7 +160,7 @@ text = "Bad% mod.:"
 
 [node name="BadChanceModifierValue" type="Label" parent="InnerFrameBounds/ScrollContainer/PowerupsContainer/BadChanceReductionContainer"]
 layout_mode = 2
-text = "0"
+text = "0 %"
 
 [node name="SolverContainer" type="VBoxContainer" parent="InnerFrameBounds/ScrollContainer/PowerupsContainer"]
 layout_mode = 2

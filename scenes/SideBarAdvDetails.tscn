@@ -45,7 +45,7 @@ text = "Good Chance: "
 
 [node name="GoodChanceValue" type="Label" parent="ItemsContainer/GoodChanceContainer"]
 layout_mode = 2
-text = "0%"
+text = "0 %"
 
 [node name="BadChanceContainer" type="HBoxContainer" parent="ItemsContainer"]
 layout_mode = 2
@@ -57,6 +57,6 @@ text = "Bad Chance: "
 
 [node name="BadChanceValue" type="Label" parent="ItemsContainer/BadChanceContainer"]
 layout_mode = 2
-text = "0%"
+text = "0 %"
 
 [connection signal="toggled" from="ExpandButton" to="." method="OnExpandButtonToggled"]

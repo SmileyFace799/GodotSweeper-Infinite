@@ -30,6 +30,13 @@ namespace SmileyFace799.RogueSweeper.Godot {
 			Game.Instance.AddReceiver(this);
 		}
 
+		public override void _Notification(int what)
+        {
+			if (what == NotificationPredelete) {
+				Game.Instance.RemoveReceiver(this);
+			}
+        }
+
 		private void PowerUpSelectionToggled(bool on, PowerUp powerUp, TextureButton button)
 		{
 			if (on) {

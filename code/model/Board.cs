@@ -37,8 +37,6 @@ namespace SmileyFace799.RogueSweeper.model
             _squares = squares;
         }
 
-        public HashSet<Square> Squares() => _squares.Values.SelectMany(v => v.Values).ToHashSet();
-
         public void placeSquare(Position position, Square square, bool replaceSquare=false, bool sendUpdateEvent=true)
         {
             Dictionary<long, Square> column;
@@ -222,10 +220,10 @@ namespace SmileyFace799.RogueSweeper.model
         protected static double GetRawBadChance(Position position)
         {
             double x = position.Abs;
-            return Math.Log(x / 6 + 1) / 16 + Math.Sin(x / 5 + Math.PI) / 25 + 1 / (x + 10) - 0.95 + Math.Pow(1.001, 0.005 * x * x);
+            return Math.Log(x / 6 + 1) / 8 + Math.Sin(x / 5 + 1.25 * Math.PI) / 30 + 80 / ((x + 4) * (x + 4) + 240) + Math.Pow(1.001, 3e-3 * x * x) + 5e-4 * x - 1.1;
         }
 
-        protected static double GetRawGoodChance(Position position) => 1 / (1 * position.Abs + 100);
+        protected static double GetRawGoodChance(Position position) => 1 / (position.Abs + 100);
 
         double GetBadChance(Position position);
         double GetGoodChance(Position position);

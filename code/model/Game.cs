@@ -29,20 +29,15 @@ namespace SmileyFace799.RogueSweeper.model
 		/// </summary>
 		private Game()
 		{
-			if (!FileInterface.ExistsAll(BOARD_FILENAME, STATS_FILENAME)) {
-				FileInterface.Delete(BOARD_FILENAME, STATS_FILENAME);
-			}
-
 			_board = new(".board");
 			_stats = new(".stats");
 
-			_board.BoardView.Listener = this;
-
-			if (!FileInterface.Exists(BOARD_FILENAME)) {
-				_board.With(board => {
-					board.RevealSquare(new(0, 0), new StaticGenData(0, 0), new RelativeGenData(_stats.StatsView.BadChanceModifier));
-				});
+			if (!FileInterface.ExistsAll(BOARD_FILENAME, STATS_FILENAME)) {
+				Restart();
+			} else {
+				_board.BoardView.Listener = this;
 			}
+
 		}
 
 		private void NotifyReceivers(IUIUpdateEvent @event)
@@ -58,6 +53,22 @@ namespace SmileyFace799.RogueSweeper.model
 			_board.With(board => {
 				receiver.OnUpdateUI(new NewGameLoadedEvent(_stats.StatsView, board.GetSquares()));
 			});
+		}
+
+		public void RemoveReceiver(IUIEventReceiver receiver) {
+			_UIEventReceivers.Remove(receiver);
+		}
+
+		/// <summary>
+		/// <para>Resets the game state to a blank, new game.</para>
+		/// </summary>
+		public void Restart() {
+			_board.ResetValue();
+			_board.BoardView.Listener = this;
+			_stats.ResetValue();
+			_board.With(board => board.RevealSquare(new(0, 0), new StaticGenData(0, 0), StandardGenData));
+			NotifyReceivers(new GameRestartedEvent());
+
 		}
 
 		public void LeftClick(Position boardPosition)
@@ -132,5 +143,5 @@ namespace SmileyFace799.RogueSweeper.model
 			}
 			NotifyReceivers(new SquareUpdatedEvent(@event.Position, @event.Square));
 		}
-	}
+    }
 }

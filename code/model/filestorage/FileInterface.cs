@@ -90,6 +90,10 @@ public abstract class FileInterface<T> : FileInterface {
         Value = value;
     }
 
+    public void ResetValue() {
+        Value = Default;
+    }
+
     private void Load() {
         _loaded = true;
         if (Exists(_path)) {
