@@ -1,8 +1,8 @@
-# RogueSweeper
+# <a name="roguesweeper"></a> RogueSweeper
 <img src="readme_imgs/Title.png"/>
 <p>This is RogueSweeper, an extension/re-make of my <a href="https://github.com/SmileyFace799/javasweeper_infinite">JavaSweeper Infinite</a> Java project, which again is a discontinued & unfinished re-make of my <code>Minesweeper Infinite</code> Python project (source code lost), which is quite simply Minesweeper, but progressively generated & infinite. However, this version aims to not just make infinite minesweeper, but also to expand on it & turn it into a roguelite.</p>
 
-<br/><h1 id="table-of-contents"><img height="68" style="image-rendering: crisp-edges; image-rendering: pixelated;" alt="Table of contents" src="readme_imgs/TableOfContents.png"/></h1>
+<br/><h1><a name="table-of-contents"></a><img height="68" style="image-rendering: crisp-edges; image-rendering: pixelated;" alt="Table of contents" src="readme_imgs/TableOfContents.png"/></h1>
 <p><ol>
     <li>[How to play](#how-to-play)<ol>
         <li>[Tile reference](#tile-reference)<ol>
@@ -30,11 +30,11 @@
     </ol></li>
 </ol></p>
 
-<br/><h1 id="how-to-play"><img height="68" style="image-rendering: crisp-edges; image-rendering: pixelated;" alt="How to play" src="readme_imgs/HowToPlay.png"/></h1>
+<br/><h1><a name="how-to-play"></a><img height="68" style="image-rendering: crisp-edges; image-rendering: pixelated;" alt="How to play" src="readme_imgs/HowToPlay.png"/></h1>
 <p>All the standard rules of minesweeper apply in this game, you can click on squares to open them, you wanna open as many squares as possible, while avoiding the bad squares. You can right click to place flags, and if you've found/marked every bad square around a number, you can middle click to instantly reveal the remaining squares around that number. However, there are also some new tiles you might encounter, and a full reference on every tile you can encounter is listed below.</p>
 
-## Tile Reference
-### Regular number tiles:
+## <a name="tile-reference"></a> Tile Reference
+### <a name="regular-number-tiles"></a> Regular number tiles:
 <img height="62" style="image-rendering: crisp-edges; image-rendering: pixelated;" alt="Regular number tiles" src="readme_imgs/DefaultNumbers.png"/>
 <ul>
     <li><b>Type:</b> Number</li>
@@ -45,7 +45,7 @@
     <img src="readme_imgs/DefaultNumbersCoverage.png"/></li>
 </ul>
 
-### Defused number tiles:
+### <a name="defused-number-tiles"></a> Defused number tiles:
 <img height="62" style="image-rendering: crisp-edges; image-rendering: pixelated;" alt="Defused number tiles" src="readme_imgs/DefusedBombNumbers.png"/>
 <ul>
     <li><b>Type:</b> Number</li>
@@ -56,7 +56,7 @@
     <img src="readme_imgs/DefusedBombNumbersCoverage.png"/></li>
 </ul>
 
-### Bomb tile:
+### <a name="bomb-tile"></a> Bomb tile:
 <img height="62" style="image-rendering: crisp-edges; image-rendering: pixelated;" alt="Bomb tile" src="readme_imgs/BombTile.png"/>
 <ul>
     <li><b>Type:</b> Special</li>
@@ -65,7 +65,7 @@
     <li><b>Effect:</b> Lose a life</li>
 </ul>
 
-### Life tile:
+### <a name="life-tile"></a> Life tile:
 <img height="62" style="image-rendering: crisp-edges; image-rendering: pixelated;" alt="Life tile" src="readme_imgs/LifeTile.png"/>
 <ul>
     <li><b>Type:</b> Special</li>
@@ -74,7 +74,7 @@
     <li><b>Effect:</b> Gain a life</li>
 </ul>
 
-### Bad chance reduction tile:
+### <a name="bad-chance-modifier-tile"></a> Bad chance reduction tile:
 <img height="62" style="image-rendering: crisp-edges; image-rendering: pixelated;" alt="Bad chance reduction tile" src="readme_imgs/BadChanceReductionTile.png"/>
 <ul>
     <li><b>Type:</b> Special</li>
@@ -83,7 +83,7 @@
     <li><b>Effect:</b> Reduce the chance of generating bad squares in the future (Does not affect squares that are already generated)</li>
 </ul>
 
-### Power-up tiles:
+### <a name="power-up-tiles"></a> Power-up tiles:
 <img height="188" style="image-rendering: crisp-edges; image-rendering: pixelated;" alt="Power-up tiles" src="readme_imgs/PowerUpTiles.png"/>
 <ul>
     <li><b>Type:</b> Special</li>
@@ -92,7 +92,7 @@
     <li><b>Effect:</b> Gain a [power-up](#power-up-reference) of the corresponding type (see image)</li>
 </ul>
 
-### Cross number tiles (Currently unused):
+### <a name="cross-number-tiles"></a> Cross number tiles (Currently unused):
 <img height="62" style="image-rendering: crisp-edges; image-rendering: pixelated;" alt="Cross number tiles" src="readme_imgs/CrossNumbers.png"/>
 <ul>
     <li><b>Type:</b> Number</li>
@@ -103,7 +103,7 @@
     <img src="readme_imgs/CrossNumbersCoverage.png"/></li>
 </ul>
 
-### Plus number tiles (Currently unused):
+### <a name="plus-number-tiles"></a> Plus number tiles (Currently unused):
 <img height="62" style="image-rendering: crisp-edges; image-rendering: pixelated;" alt="Plus number tiles" src="readme_imgs/PlusNumbers.png"/>
 <ul>
     <li><b>Type:</b> Number</li>
@@ -114,7 +114,7 @@
     <img src="readme_imgs/PlusNumbersCoverage.png"/></li>
 </ul>
 
-### Diamond number tiles (Currently unused):
+### <a name="diamond-number-tiles"></a> Diamond number tiles (Currently unused):
 <img height="62" style="image-rendering: crisp-edges; image-rendering: pixelated;" alt="Diamond number tiles" src="readme_imgs/DiamondNumbers.png"/>
 <ul>
     <li><b>Type:</b> Number</li>
@@ -125,43 +125,43 @@
     <img src="readme_imgs/DiamondNumbersCoverage.png"/></li>
 </ul>
 
-## Power-Up Reference
+## <a name="power-up-reference"></a> Power-Up Reference
 Power-ups are a new addition to this game, to spice up the gameplay & to add some more strategy. These are active-use effects that can be selected & used on a single tile. To use one, simply select the power-up to use, then left click on a tile on the board to use it there. Right clicking with a power-up selected deselects it.
 
-### Small solver:
+### <a name="small-solver"></a> Small solver:
 <img height="52" style="image-rendering: crisp-edges; image-rendering: pixelated;" alt="Small solver" src="readme_imgs/SmallSolver.png"/>
 <ul>
     <li><b>Area of effect:</b> 1x1</li>
     <li><b>Effect:</b> For every affected tile, places a flag on it if it's a bad square, otherwise opens it. Does nothing on already opened tiles</li>
 </ul>
 
-### Medium solver:
+### <a name="medium-solver"></a> Medium solver:
 <img height="52" style="image-rendering: crisp-edges; image-rendering: pixelated;" alt="Medium solver" src="readme_imgs/MediumSolver.png"/>
 <ul>
     <li><b>Area of effect:</b> 3x3</li>
     <li><b>Effect:</b> For every affected tile, places a flag on it if it's a bad square, otherwise opens it. Does nothing on already opened tiles</li>
 </ul>
 
-### Large solver:
+### <a name="large-solver"></a> Large solver:
 <img height="52" style="image-rendering: crisp-edges; image-rendering: pixelated;" alt="Large solver" src="readme_imgs/LargeSolver.png"/>
 <ul>
     <li><b>Area of effect:</b> 5x5</li>
     <li><b>Effect:</b> For every affected tile, places a flag on it if it's a bad square, otherwise opens it. Does nothing on already opened tiles</li>
 </ul>
 
-### Defuser:
+### <a name="defuser"></a> Defuser:
 <img height="52" style="image-rendering: crisp-edges; image-rendering: pixelated;" alt="Defuser" src="readme_imgs/Defuser.png"/>
 <ul>
     <li><b>Area of effect:</b> 1x1</li>
     <li><b>Effect:</b> If the target tile is a bad square, nullify its effect & place a [defused number tile](#defused-number-tiles) there instead</li>
 </ul>
 
-<br/><h1 id="development-info"><img height="68" style="image-rendering: crisp-edges; image-rendering: pixelated;" alt="Development Info" src="readme_imgs/DevelopmentInfo.png"/></h1>
+<br/><h1><a name="development-info"></a><img height="68" style="image-rendering: crisp-edges; image-rendering: pixelated;" alt="Development Info" src="readme_imgs/DevelopmentInfo.png"/></h1>
 
-## Deadline
+## <a name="deadline"></a> Deadline
 <p>The deadline for the MVP of the project is 6/1/2025. Anything outside the MVP will not be prioritized until after this deadline. Beyond the deadline, this will probably become more of a "passion project", where development will happen whenever I feel like it, without any time constraints.</p>
 
-## Goals of this project
+## <a name="goals-of-this-project"></a> Goals of this project
 <p>The "end goal" of this project is simply infinite Minesweeper, but expanded with some unique features to adapt it into a roguelite. There's a few smaller goals along the way (listed below), which will be checked off as the project develops. More specific goals will be tracked using an issue board after MVP has been reached.</p>
 
 <p><b>List of goals (within deadline):</b>
@@ -172,7 +172,7 @@ Power-ups are a new addition to this game, to spice up the gameplay & to add som
     <li>Playtesting & bugtesting, finished & playable MVP created: ✅</li>
 </ol></p>
 
-## Features
+## <a name="features"></a> Features
 <p><i>NOTE: This section may change as the project develops.<br/>
 It does not cover standard Minesweeper mechanics, as those are implicitly included within MVP</i></p>
 
