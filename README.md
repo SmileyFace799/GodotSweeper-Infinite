@@ -1,11 +1,168 @@
-# GodotSweeper Infinite
-<p>This is a re-make of my <a href="https://github.com/SmileyFace799/javasweeper_infinite">JavaSweeper Infinite</a> Java project, which again is a discontinued & unfinished re-make of my <code>Minesweeper Infinite</code> Python project (source code lost), which is quite simply Minesweeper in, but progressively generated & infinite.</p>
+# RogueSweeper
+<img src="readme_imgs/Title.png"/>
+<p>This is RogueSweeper, an extension/re-make of my <a href="https://github.com/SmileyFace799/javasweeper_infinite">JavaSweeper Infinite</a> Java project, which again is a discontinued & unfinished re-make of my <code>Minesweeper Infinite</code> Python project (source code lost), which is quite simply Minesweeper, but progressively generated & infinite. However, this version aims to not just make infinite minesweeper, but also to expand on it & turn it into a roguelite.</p>
+
+<br/><h1 id="table-of-contents"><img height="68" style="image-rendering: crisp-edges; image-rendering: pixelated;" alt="Table of contents" src="readme_imgs/TableOfContents.png"/></h1>
+<p><ol>
+    <li>[How to play](#how-to-play)<ol>
+        <li>[Tile reference](#tile-reference)<ol>
+            <li>[Regular number tiles](#regular-number-tiles)</li>
+            <li>[Defused number tiles](#defused-number-tiles)</li>
+            <li>[Bomb tile](#bomb-tile)</li>
+            <li>[Life tile](#life-tile)</li>
+            <li>[Bad chance reduction tile](#bad-chance-reduction-tile)</li>
+            <li>[Power-up tiles](#power-up-tiles)</li>
+            <li>[Cross number tiles (Currently unused)](#cross-number-tiles-currently-unused)</lI>
+            <li>[Plus number tiles (Currently unused)](#plus-number-tiles-currently-unused)</lI>
+            <li>[Diamond number tiles (Currently unused)](#diamond-number-tiles-currently-unused)</lI>
+        </ol></li>
+        <li>[Power-up reference](#power-up-reference)<ol>
+            <li>[Small solver](#small-solver)</li>
+            <li>[Medium solver](#medium-solver)</li>
+            <li>[Large solver](#large-solver)</li>
+            <li>[Defuser](#defuser)</li>
+        </ol></li>
+    </ol></li>
+    <li>[Development info](#development-info)<ol>
+        <li>[Deadline](#deadline)</li>
+        <li>[Goals of this project](#goals-of-this-project)</li>
+        <li>[Features](#features)</li>
+    </ol></li>
+</ol></p>
+
+<br/><h1 id="how-to-play"><img height="68" style="image-rendering: crisp-edges; image-rendering: pixelated;" alt="How to play" src="readme_imgs/HowToPlay.png"/></h1>
+<p>All the standard rules of minesweeper apply in this game, you can click on squares to open them, you wanna open as many squares as possible, while avoiding the bad squares. You can right click to place flags, and if you've found/marked every bad square around a number, you can middle click to instantly reveal the remaining squares around that number. However, there are also some new tiles you might encounter, and a full reference on every tile you can encounter is listed below.</p>
+
+## Tile Reference
+### Regular number tiles:
+<img height="62" style="image-rendering: crisp-edges; image-rendering: pixelated;" alt="Regular number tiles" src="readme_imgs/DefaultNumbers.png"/>
+<ul>
+    <li><b>Type:</b> Number</li>
+    <li><b>Severity:</b> Neutral</li>
+    <li><b>Spawns from:</b> Natural generation</li>
+    <li><b>Effect:</b> Counts how many bad squares exist within its coverage</li>
+    <li><b>Coverage:</b><br/>
+    <img src="readme_imgs/DefaultNumbersCoverage.png"/></li>
+</ul>
+
+### Defused number tiles:
+<img height="62" style="image-rendering: crisp-edges; image-rendering: pixelated;" alt="Defused number tiles" src="readme_imgs/DefusedBombNumbers.png"/>
+<ul>
+    <li><b>Type:</b> Number</li>
+    <li><b>Severity:</b> Bad</li>
+    <li><b>Spawns from:</b> [Defuse power-up](#defuser)</li>
+    <li><b>Effect:</b> Counts how many bad squares exist within its coverage (Does <b>not</b> count itself)</li>
+    <li><b>Coverage:</b><br/>
+    <img src="readme_imgs/DefusedBombNumbersCoverage.png"/></li>
+</ul>
+
+### Bomb tile:
+<img height="62" style="image-rendering: crisp-edges; image-rendering: pixelated;" alt="Bomb tile" src="readme_imgs/BombTile.png"/>
+<ul>
+    <li><b>Type:</b> Special</li>
+    <li><b>Severity:</b> Bad</li>
+    <li><b>Spawns from:</b> Natural generation</li>
+    <li><b>Effect:</b> Lose a life</li>
+</ul>
+
+### Life tile:
+<img height="62" style="image-rendering: crisp-edges; image-rendering: pixelated;" alt="Life tile" src="readme_imgs/LifeTile.png"/>
+<ul>
+    <li><b>Type:</b> Special</li>
+    <li><b>Severity:</b> Good</li>
+    <li><b>Spawns from:</b> Natural generation</li>
+    <li><b>Effect:</b> Gain a life</li>
+</ul>
+
+### Bad chance reduction tile:
+<img height="62" style="image-rendering: crisp-edges; image-rendering: pixelated;" alt="Bad chance reduction tile" src="readme_imgs/BadChanceReductionTile.png"/>
+<ul>
+    <li><b>Type:</b> Special</li>
+    <li><b>Severity:</b> Good</li>
+    <li><b>Spawns from:</b> Natural generation</li>
+    <li><b>Effect:</b> Reduce the chance of generating bad squares in the future (Does not affect squares that are already generated)</li>
+</ul>
+
+### Power-up tiles:
+<img height="188" style="image-rendering: crisp-edges; image-rendering: pixelated;" alt="Power-up tiles" src="readme_imgs/PowerUpTiles.png"/>
+<ul>
+    <li><b>Type:</b> Special</li>
+    <li><b>Severity:</b> Good</li>
+    <li><b>Spawns from:</b> Natural generation</li>
+    <li><b>Effect:</b> Gain a [power-up](#power-up-reference) of the corresponding type (see image)</li>
+</ul>
+
+### Cross number tiles (Currently unused):
+<img height="62" style="image-rendering: crisp-edges; image-rendering: pixelated;" alt="Cross number tiles" src="readme_imgs/CrossNumbers.png"/>
+<ul>
+    <li><b>Type:</b> Number</li>
+    <li><b>Severity:</b> Neutral</li>
+    <li><b>Spawns from:</b> Nothing</li>
+    <li><b>Effect:</b> Counts how many bad squares exist within its coverage</li>
+    <li><b>Coverage:</b><br/>
+    <img src="readme_imgs/CrossNumbersCoverage.png"/></li>
+</ul>
+
+### Plus number tiles (Currently unused):
+<img height="62" style="image-rendering: crisp-edges; image-rendering: pixelated;" alt="Plus number tiles" src="readme_imgs/PlusNumbers.png"/>
+<ul>
+    <li><b>Type:</b> Number</li>
+    <li><b>Severity:</b> Neutral</li>
+    <li><b>Spawns from:</b> Nothing</li>
+    <li><b>Effect:</b> Counts how many bad squares exist within its coverage</li>
+    <li><b>Coverage:</b><br/>
+    <img src="readme_imgs/PlusNumbersCoverage.png"/></li>
+</ul>
+
+### Diamond number tiles (Currently unused):
+<img height="62" style="image-rendering: crisp-edges; image-rendering: pixelated;" alt="Diamond number tiles" src="readme_imgs/DiamondNumbers.png"/>
+<ul>
+    <li><b>Type:</b> Number</li>
+    <li><b>Severity:</b> Neutral</li>
+    <li><b>Spawns from:</b> Nothing</li>
+    <li><b>Effect:</b> Counts how many bad squares exist within its coverage</li>
+    <li><b>Coverage:</b><br/>
+    <img src="readme_imgs/DiamondNumbersCoverage.png"/></li>
+</ul>
+
+## Power-Up Reference
+Power-ups are a new addition to this game, to spice up the gameplay & to add some more strategy. These are active-use effects that can be selected & used on a single tile. To use one, simply select the power-up to use, then left click on a tile on the board to use it there. Right clicking with a power-up selected deselects it.
+
+### Small solver:
+<img height="52" style="image-rendering: crisp-edges; image-rendering: pixelated;" alt="Small solver" src="readme_imgs/SmallSolver.png"/>
+<ul>
+    <li><b>Area of effect:</b> 1x1</li>
+    <li><b>Effect:</b> For every affected tile, places a flag on it if it's a bad square, otherwise opens it. Does nothing on already opened tiles</li>
+</ul>
+
+### Medium solver:
+<img height="52" style="image-rendering: crisp-edges; image-rendering: pixelated;" alt="Medium solver" src="readme_imgs/MediumSolver.png"/>
+<ul>
+    <li><b>Area of effect:</b> 3x3</li>
+    <li><b>Effect:</b> For every affected tile, places a flag on it if it's a bad square, otherwise opens it. Does nothing on already opened tiles</li>
+</ul>
+
+### Large solver:
+<img height="52" style="image-rendering: crisp-edges; image-rendering: pixelated;" alt="Large solver" src="readme_imgs/LargeSolver.png"/>
+<ul>
+    <li><b>Area of effect:</b> 5x5</li>
+    <li><b>Effect:</b> For every affected tile, places a flag on it if it's a bad square, otherwise opens it. Does nothing on already opened tiles</li>
+</ul>
+
+### Defuser:
+<img height="52" style="image-rendering: crisp-edges; image-rendering: pixelated;" alt="Defuser" src="readme_imgs/Defuser.png"/>
+<ul>
+    <li><b>Area of effect:</b> 1x1</li>
+    <li><b>Effect:</b> If the target tile is a bad square, nullify its effect & place a [defused number tile](#defused-number-tiles) there instead</li>
+</ul>
+
+<br/><h1 id="development-info"><img height="68" style="image-rendering: crisp-edges; image-rendering: pixelated;" alt="Development Info" src="readme_imgs/DevelopmentInfo.png"/></h1>
 
 ## Deadline
 <p>The deadline for the MVP of the project is 6/1/2025. Anything outside the MVP will not be prioritized until after this deadline. Beyond the deadline, this will probably become more of a "passion project", where development will happen whenever I feel like it, without any time constraints.</p>
 
 ## Goals of this project
-<p>The "end goal" of this project is simply infinite Minesweeper, but expanded with some unique features to adapt it into a roguelike. There's a few smaller goals along the way (listed below), which will be checked off as the project develops. More specific goals will be tracked using an issue board after MVP has been reached.</p>
+<p>The "end goal" of this project is simply infinite Minesweeper, but expanded with some unique features to adapt it into a roguelite. There's a few smaller goals along the way (listed below), which will be checked off as the project develops. More specific goals will be tracked using an issue board after MVP has been reached.</p>
 
 <p><b>List of goals (within deadline):</b>
 <ol>
