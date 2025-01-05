@@ -39,8 +39,7 @@ All the standard rules of minesweeper apply in this game, you can click on squar
 - **Severity:** Neutral
 - **Spawns from:** Natural generation
 - **Effect:** Counts how many bad squares exist within its coverage
-- **Coverage:**<br/>
-<img src="readme_imgs/DefaultNumbersCoverage.png"/>
+- **Coverage:**<br/><img src="readme_imgs/DefaultNumbersCoverage.png"/>
 
 ### Defused number tiles:
 <img height="62" style="image-rendering: crisp-edges; image-rendering: pixelated;" alt="Defused number tiles" src="readme_imgs/DefusedBombNumbers.png"/>
@@ -49,8 +48,7 @@ All the standard rules of minesweeper apply in this game, you can click on squar
 - **Severity:** Bad
 - **Spawns from:** [Defuser power-up](#defuser)
 - **Effect:** Counts how many bad squares exist within its coverage (Does **not** count itself)
-- **Coverage:**<br/>
-<img src="readme_imgs/DefusedBombNumbersCoverage.png"/>
+- **Coverage:**<br/><img src="readme_imgs/DefusedBombNumbersCoverage.png"/>
 
 ### Bomb tile:
 <img height="62" style="image-rendering: crisp-edges; image-rendering: pixelated;" alt="Bomb tile" src="readme_imgs/BombTile.png"/>
@@ -91,8 +89,7 @@ All the standard rules of minesweeper apply in this game, you can click on squar
 - **Severity:** Neutral
 - **Spawns from:** Nothing
 - **Effect:** Counts how many bad squares exist within its coverage
-- **Coverage:**<br/>
-<img src="readme_imgs/CrossNumbersCoverage.png"/>
+- **Coverage:**<br/><img src="readme_imgs/CrossNumbersCoverage.png"/>
 
 ### Plus number tiles (Currently unused):
 <img height="62" style="image-rendering: crisp-edges; image-rendering: pixelated;" alt="Plus number tiles" src="readme_imgs/PlusNumbers.png"/>
@@ -101,8 +98,7 @@ All the standard rules of minesweeper apply in this game, you can click on squar
 - **Severity:** Neutral
 - **Spawns from:** Nothing
 - **Effect:** Counts how many bad squares exist within its coverage
-- **Coverage:**<br/>
-<img src="readme_imgs/PlusNumbersCoverage.png"/>
+- **Coverage:**<br/><img src="readme_imgs/PlusNumbersCoverage.png"/>
 
 ### Diamond number tiles (Currently unused):
 <img height="62" style="image-rendering: crisp-edges; image-rendering: pixelated;" alt="Diamond number tiles" src="readme_imgs/DiamondNumbers.png"/>
@@ -111,8 +107,7 @@ All the standard rules of minesweeper apply in this game, you can click on squar
 - **Severity:** Neutral
 - **Spawns from:** Nothing
 - **Effect:** Counts how many bad squares exist within its coverage
-- **Coverage:**<br/>
-<img src="readme_imgs/DiamondNumbersCoverage.png"/>
+- **Coverage:**<br/><img src="readme_imgs/DiamondNumbersCoverage.png"/>
 
 
 ## Power-Up Reference
