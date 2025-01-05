@@ -48,7 +48,7 @@ All the standard rules of minesweeper apply in this game, you can click on squar
 - **Type:** Number
 - **Severity:** Bad
 - **Spawns from:** [Defuser power-up](#defuser)
-- **Effect:** Counts how many bad squares exist within its coverage (Does *not* count itself)
+- **Effect:** Counts how many bad squares exist within its coverage (Does **not** count itself)
 - **Coverage:**<br/>
 <img src="readme_imgs/DefusedBombNumbersCoverage.png"/>
 
@@ -74,7 +74,7 @@ All the standard rules of minesweeper apply in this game, you can click on squar
 - **Type:** Special
 - **Severity:** Good
 - **Spawns from:** Natural generation
-- **Effect:** Reduce the chance of generating bad squares in the future (Does not affect squares that are already generated)
+- **Effect:** Reduce the chance of generating bad squares in the future (Does **not** affect squares that are already generated)
 
 ### Power-up tiles:
 <img height="188" style="image-rendering: crisp-edges; image-rendering: pixelated;" alt="Power-up tiles" src="readme_imgs/PowerUpTiles.png"/>
