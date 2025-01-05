@@ -82,7 +82,7 @@ All the standard rules of minesweeper apply in this game, you can click on squar
 - **Type:** Special
 - **Severity:** Good
 - **Spawns from:** Natural generation
-- **Effect:** Gain a corresponding [power-up](#power-up-reference) (see image)**
+- **Effect:** Gain a corresponding [power-up](#power-up-reference) (see image)
 
 ### Cross number tiles (Currently unused):
 <img height="62" style="image-rendering: crisp-edges; image-rendering: pixelated;" alt="Cross number tiles" src="readme_imgs/CrossNumbers.png"/>
