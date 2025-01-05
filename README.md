@@ -4,7 +4,7 @@
 This is RogueSweeper, an extension/re-make of my [JavaSweeper Infinite](https://github.com/SmileyFace799/javasweeper_infinite) Java project, which again is a discontinued & unfinished re-make of my `Minesweeper Infinite` Python project (source code lost), which is quite simply Minesweeper, but progressively generated & infinite. However, this version aims to not just make infinite minesweeper, but also to expand on it & turn it into a roguelite.
 
 <a name="table-of-contents"></a>
-<br/><h1><img height="68" style="image-rendering: crisp-edges; image-rendering: pixelated;" alt="Table of contents" src="readme_imgs/TableOfContents.png"/></h1>
+<br/><h1><img alt="Table of contents" src="readme_imgs/TableOfContents.png"/></h1>
 
 1. [How to play](#how-to-play)
     1. [Tile reference](#tile-reference)
@@ -28,12 +28,12 @@ This is RogueSweeper, an extension/re-make of my [JavaSweeper Infinite](https://
     3. [Features](#features)
 
 <a name="how-to-play"></a>
-<br/><h1><img height="68" style="image-rendering: crisp-edges; image-rendering: pixelated;" alt="How to play" src="readme_imgs/HowToPlay.png"/></h1>
+<br/><h1><img alt="How to play" src="readme_imgs/HowToPlay.png"/></h1>
 All the standard rules of minesweeper apply in this game, you can click on squares to open them, you wanna open as many squares as possible, while avoiding the bad squares. You can right click to place flags, and if you've found/marked every bad square around a number, you can middle click to instantly reveal the remaining squares around that number. However, there are also some new tiles you might encounter, and a full reference on every tile you can encounter is listed below.
 
 ## Tile Reference
 ### Regular number tiles:
-<img height="62" style="image-rendering: crisp-edges; image-rendering: pixelated;" alt="Regular number tiles" src="readme_imgs/DefaultNumbers.png"/>
+<img alt="Regular number tiles" src="readme_imgs/DefaultNumbers.png"/>
 
 - **Type:** Number
 - **Severity:** Neutral
@@ -42,7 +42,7 @@ All the standard rules of minesweeper apply in this game, you can click on squar
 - **Coverage:**<br/><img src="readme_imgs/DefaultNumbersCoverage.png"/>
 
 ### Defused number tiles:
-<img height="62" style="image-rendering: crisp-edges; image-rendering: pixelated;" alt="Defused number tiles" src="readme_imgs/DefusedBombNumbers.png"/>
+<img alt="Defused number tiles" src="readme_imgs/DefusedBombNumbers.png"/>
 
 - **Type:** Number
 - **Severity:** Bad
@@ -51,7 +51,7 @@ All the standard rules of minesweeper apply in this game, you can click on squar
 - **Coverage:**<br/><img src="readme_imgs/DefusedBombNumbersCoverage.png"/>
 
 ### Bomb tile:
-<img height="62" style="image-rendering: crisp-edges; image-rendering: pixelated;" alt="Bomb tile" src="readme_imgs/BombTile.png"/>
+<img alt="Bomb tile" src="readme_imgs/BombTile.png"/>
 
 - **Type:** Special
 - **Severity:** Bad
@@ -59,7 +59,7 @@ All the standard rules of minesweeper apply in this game, you can click on squar
 - **Effect:** Lose a life
 
 ### Life tile:
-<img height="62" style="image-rendering: crisp-edges; image-rendering: pixelated;" alt="Life tile" src="readme_imgs/LifeTile.png"/>
+<img alt="Life tile" src="readme_imgs/LifeTile.png"/>
 
 - **Type:** Special
 - **Severity:** Good
@@ -67,7 +67,7 @@ All the standard rules of minesweeper apply in this game, you can click on squar
 - **Effect:** Gain a life
 
 ### Bad chance reduction tile:
-<img height="62" style="image-rendering: crisp-edges; image-rendering: pixelated;" alt="Bad chance reduction tile" src="readme_imgs/BadChanceReductionTile.png"/>
+<img alt="Bad chance reduction tile" src="readme_imgs/BadChanceReductionTile.png"/>
 
 - **Type:** Special
 - **Severity:** Good
@@ -75,7 +75,7 @@ All the standard rules of minesweeper apply in this game, you can click on squar
 - **Effect:** Reduce the chance of generating bad squares in the future (Does **not** affect squares that are already generated)
 
 ### Power-up tiles:
-<img height="188" style="image-rendering: crisp-edges; image-rendering: pixelated;" alt="Power-up tiles" src="readme_imgs/PowerUpTiles.png"/>
+<img alt="Power-up tiles" src="readme_imgs/PowerUpTiles.png"/>
 
 - **Type:** Special
 - **Severity:** Good
@@ -83,7 +83,7 @@ All the standard rules of minesweeper apply in this game, you can click on squar
 - **Effect:** Gain a corresponding [power-up](#power-up-reference) (see image)
 
 ### Cross number tiles (Currently unused):
-<img height="62" style="image-rendering: crisp-edges; image-rendering: pixelated;" alt="Cross number tiles" src="readme_imgs/CrossNumbers.png"/>
+<img alt="Cross number tiles" src="readme_imgs/CrossNumbers.png"/>
 
 - **Type:** Number
 - **Severity:** Neutral
@@ -92,7 +92,7 @@ All the standard rules of minesweeper apply in this game, you can click on squar
 - **Coverage:**<br/><img src="readme_imgs/CrossNumbersCoverage.png"/>
 
 ### Plus number tiles (Currently unused):
-<img height="62" style="image-rendering: crisp-edges; image-rendering: pixelated;" alt="Plus number tiles" src="readme_imgs/PlusNumbers.png"/>
+<img alt="Plus number tiles" src="readme_imgs/PlusNumbers.png"/>
 
 - **Type:** Number
 - **Severity:** Neutral
@@ -101,7 +101,7 @@ All the standard rules of minesweeper apply in this game, you can click on squar
 - **Coverage:**<br/><img src="readme_imgs/PlusNumbersCoverage.png"/>
 
 ### Diamond number tiles (Currently unused):
-<img height="62" style="image-rendering: crisp-edges; image-rendering: pixelated;" alt="Diamond number tiles" src="readme_imgs/DiamondNumbers.png"/>
+<img alt="Diamond number tiles" src="readme_imgs/DiamondNumbers.png"/>
 
 - **Type:** Number
 - **Severity:** Neutral
@@ -114,32 +114,32 @@ All the standard rules of minesweeper apply in this game, you can click on squar
 Power-ups are a new addition to this game, to spice up the gameplay & to add some more strategy. These are active-use effects that can be selected & used on a single tile. To use one, simply select the power-up to use, then left click on a tile on the board to use it there. Right clicking with a power-up selected deselects it.
 
 ### Small solver:
-<img height="52" style="image-rendering: crisp-edges; image-rendering: pixelated;" alt="Small solver" src="readme_imgs/SmallSolver.png"/>
+<img alt="Small solver" src="readme_imgs/SmallSolver.png"/>
 
 - **Area of effect:** 1x1
 - **Effect:** For every affected tile, places a flag on it if it's a bad square, otherwise opens it. Does nothing on already opened tiles
 
 ### Medium solver:
-<img height="52" style="image-rendering: crisp-edges; image-rendering: pixelated;" alt="Medium solver" src="readme_imgs/MediumSolver.png"/>
+<img alt="Medium solver" src="readme_imgs/MediumSolver.png"/>
 
 - **Area of effect:** 3x3
 - **Effect:** For every affected tile, places a flag on it if it's a bad square, otherwise opens it. Does nothing on already opened tiles
 
 ### Large solver:
-<img height="52" style="image-rendering: crisp-edges; image-rendering: pixelated;" alt="Large solver" src="readme_imgs/LargeSolver.png"/>
+<img alt="Large solver" src="readme_imgs/LargeSolver.png"/>
 
 - **Area of effect:** 5x5
 - **Effect:** For every affected tile, places a flag on it if it's a bad square, otherwise opens it. Does nothing on already opened tiles
 
 ### Defuser:
-<img height="52" style="image-rendering: crisp-edges; image-rendering: pixelated;" alt="Defuser" src="readme_imgs/Defuser.png"/>
+<img alt="Defuser" src="readme_imgs/Defuser.png"/>
 
 - **Area of effect:** 1x1
 - **Effect:** If the target tile is a bad square, nullify its effect & place a [defused number tile](#defused-number-tiles) there instead
 
 
 <a name="development-info"></a>
-<br/><h1><img height="68" style="image-rendering: crisp-edges; image-rendering: pixelated;" alt="Development Info" src="readme_imgs/DevelopmentInfo.png"/></h1>
+<br/><h1><img alt="Development Info" src="readme_imgs/DevelopmentInfo.png"/></h1>
 
 ## Deadline
 The deadline for the MVP of the project is 6/1/2025. Anything outside the MVP will not be prioritized until after this deadline. Beyond the deadline, this will probably become more of a "passion project", where development will happen whenever I feel like it, without any time constraints.
