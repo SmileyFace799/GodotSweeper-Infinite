@@ -22,6 +22,7 @@ This is RogueSweeper, an extension/re-make of my [JavaSweeper Infinite](https://
         2. [Medium solver](#medium-solver)
         3. [Large solver](#large-solver)
         4. [Defuser](#defuser)
+2. [Video demo](#video-demo)
 2. [Development info](#development-info)
     1. [Deadline](#deadline)
     2. [Goals of this project](#goals-of-this-project)
@@ -137,6 +138,10 @@ Power-ups are a new addition to this game, to spice up the gameplay & to add som
 - **Area of effect:** 1x1
 - **Effect:** If the target tile is a bad square, nullify its effect & place a [defused number tile](#defused-number-tiles) there instead
 
+
+<a name="video-demo"></a>
+<br/><h1><img alt="Video Demo" src="readme_imgs/VideoDemo.png"/></h1>
+<video src="demo.mp4"></video>
 
 <a name="development-info"></a>
 <br/><h1><img alt="Development Info" src="readme_imgs/DevelopmentInfo.png"/></h1>

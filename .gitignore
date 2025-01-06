@@ -4,3 +4,6 @@
 godot/
 build/
 export_presets.cfg
+~*.tmp
+~$*.docx
+demoUncompressed.mp4
