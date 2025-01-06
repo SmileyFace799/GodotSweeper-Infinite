@@ -141,7 +141,7 @@ Power-ups are a new addition to this game, to spice up the gameplay & to add som
 
 <a name="video-demo"></a>
 <br/><h1><img alt="Video Demo" src="readme_imgs/VideoDemo.png"/></h1>
-<video src="https://www.youtube.com/watch?v=HuUEWtcVFm0"></video>
+[![Video demo](https://img.youtube.com/vi/HuUEWtcVFm0/0.jpg)](https://www.youtube.com/watch?v=HuUEWtcVFm0)
 
 <a name="development-info"></a>
 <br/><h1><img alt="Development Info" src="readme_imgs/DevelopmentInfo.png"/></h1>
