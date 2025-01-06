@@ -1,0 +1,39 @@
+   START TIME    -     END TIME     | DURATION | DETAILS
+27/11/2024 18:00 - 27/11/2024 20:00 |    2h    | Created readme, established project goals & requirements
+27/11/2024 22:30 - 28/11/2024 00:30 |    2h    | Made class diagram
+28/11/2024 12:30 - 28/11/2024 19:00 |    6h30m | Created model from class diagram
+28/11/2024 21:00 - 29/11/2024 03:30 |    6h30m | Stared working on graphics, barely playable prototype working
+29/11/2024 12:00 - 29/11/2024 17:30 |    5h30m | Finished up gameplay, added smart reveal & cascade reveals
+29/11/2024 21:00 - 29/11/2024 23:30 |    2h30m | Added movable & zoomable camera
+30/11/2024 13:00 - 30/11/2024 16:00 |    3h    | Continued work on camera
+01/12/2024 12:30 - 01/12/2024 18:00 |    5h30m | Started working on persistent storage
+01/12/2024 21:00 - 02/12/2024 00:00 |    3h    | Continued work on persistent storage
+1ST WEEK, TOTAL                     | 1d12h30m |
+
+04/12/2024 20:00 - 04/12/2024 23:30 |    3h30m | Finished work on persistent storage
+07/12/2024 23:00 - 08/12/2024 00:00 |    1h    | Made barebones main menu
+08/12/2024 11:00 - 08/12/2024 12:30 |    1h30m | Started work on basic pause menu / UI
+08/12/2024 14:30 - 08/12/2024 19:30 |    5h    | Polished up pause menu, fixed blurry textures, added incrementing mine chance
+2ND WEEK, TOTAL                     |   11h    |
+
+09/12/2024 01:00 - 09/12/2024 04:30 |    3h30m | Drew a main menu title, polished up main menu
+10/12/2024 16:00 - 10/12/2024 17:00 |    1h    | Started work on tracked stats & a game over screen
+14/12/2024 00:30 - 14/12/2024 03:00 |    2h30m | Worked on game over screen, added textures for special squares, minechance reduction works
+3RD WEEK, TOTAL                     |    7h    |
+
+22/12/2024 18:30 - 22/12/2024 23:00 |    4h30m | Death is now an option, added sidebar, made themes for each font color
+4TH WEEK, TOTAL                     |    4h30m |
+
+26/12/2024 15:30 - 26/12/2024 19:00 |    3h30m | Made a game class to split up the board script for better cohesion
+26/12/2024 22:00 - 27/12/2024 01:00 |    3h    | Continued de-spaghettifying of the board script, added more listeners
+5TH WEEK, TOTAL                     |    6h30m |
+
+01/01/2025 16:00 - 01/01/2025 22:00 |    6h    | Fixed a few bugs caused by previous de-spaghettifying, game runs properly again
+02/01/2025 00:00 - 02/01/2025 04:00 |    4h    | Started working on powerups, added some sprites for them
+03/01/2025 15:00 - 04/01/2025 03:30 |   12h30m | Power-ups fully implemented & working
+04/01/2025 10:00 - 04/01/2025 15:30 |    5h30m | Final bugfixing, game compiles, MVP complete
+05/01/2025 14:30 - 05/01/2025 21:00 |    6h30m | Added a mini-wiki in the readme on how to play the game, made some illustrations to make it prettier
+05/01/2025 23:00 - 06/01/2025 04:30 |    5h30m | Finishing up report, delivering project
+6TH WEEK, TOTAL                     | 1d16h    |
+
+TOTAL                               | 4d 9h30m |
