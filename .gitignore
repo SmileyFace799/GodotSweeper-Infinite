@@ -4,6 +4,10 @@
 godot/
 build/
 export_presets.cfg
-~*.tmp
-~$*.docx
+*.import
+
 demoUncompressed.mp4
+*.pdf
+*.docx
+*.tmp
+RogueSweeper.zip

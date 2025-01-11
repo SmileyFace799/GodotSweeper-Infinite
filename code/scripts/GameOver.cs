@@ -17,10 +17,8 @@ namespace SmileyFace799.RogueSweeper.Godot
 
 		public override void _ShortcutInput(InputEvent @event)
 		{
-			if (Visible && @event is InputEventKey keyEvent) {
-				if (keyEvent.Keycode == Key.Escape && keyEvent.IsPressed()) {
-					OnBoardGameOver();
-				}
+			if (Visible && @event is InputEventKey keyEvent && keyEvent.Keycode == Key.Escape && keyEvent.IsPressed()) {
+				OnBoardGameOver();
 				GetViewport().SetInputAsHandled();
 			}
 		}
