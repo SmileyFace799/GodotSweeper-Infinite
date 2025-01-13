@@ -42,12 +42,12 @@ namespace SmileyFace799.RogueSweeper.Godot
 			{
 				case NewGameLoadedEvent nglEvent:
 					if (nglEvent.Stats.Lives <= 0 && !Visible) {
-						OnBoardGameOver();
+						GDThread.QueueTask(TaskPriority.UI_UPDATE, OnBoardGameOver);
 					}
 					break;
 				case LivesUpdatedEvent luEvent:
 					if (luEvent.Lives <= 0 && !Visible) {
-						OnBoardGameOver();
+						GDThread.QueueTask(TaskPriority.UI_UPDATE, OnBoardGameOver);
 					}
 					break;
 			}

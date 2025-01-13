@@ -55,31 +55,35 @@ namespace SmileyFace799.RogueSweeper.Godot {
 
 		private void OnSmallSolversUpdated(uint smallSolvers)
 		{
-			_solversSmallButton.Disabled = smallSolvers == 0;
-			_solversSmallLabel.Text = smallSolvers.ToString();
+			GDThread.QueueTask(TaskPriority.UI_UPDATE, () => {
+				_solversSmallButton.Disabled = smallSolvers == 0;
+				_solversSmallLabel.Text = smallSolvers.ToString();
+			});
 		}
 		private void OnMediumSolversUpdated(uint mediumSolvers)
 		{
-			_solversMediumButton.Disabled = mediumSolvers == 0;
-			_solversMediumLabel.Text = mediumSolvers.ToString();
+			GDThread.QueueTask(TaskPriority.UI_UPDATE, () => {
+				_solversMediumButton.Disabled = mediumSolvers == 0;
+				_solversMediumLabel.Text = mediumSolvers.ToString();
+			});
 		}
 		private void OnLargeSolversUpdated(uint largeSolvers)
 		{
-			_solversLargeButton.Disabled = largeSolvers == 0;
-			_solversLargeLabel.Text = largeSolvers.ToString();
+			GDThread.QueueTask(TaskPriority.UI_UPDATE, () => {
+				_solversLargeButton.Disabled = largeSolvers == 0;
+				_solversLargeLabel.Text = largeSolvers.ToString();
+			});
 		}
 		private void OnDefusersUpdated(uint defusers)
 		{
-			_defusersButton.Disabled = defusers == 0;
-			_defusersLabel.Text = defusers.ToString();
+			GDThread.QueueTask(TaskPriority.UI_UPDATE, () => {
+				_defusersButton.Disabled = defusers == 0;
+				_defusersLabel.Text = defusers.ToString();
+			});
 		}
 
 		public void OnUpdateUI(IUIUpdateEvent @event)
 		{
-			if (@event is PowerUpDeselectedEvent) {
-				_selectedButton.SetPressedNoSignal(false);
-				_selectedButton = null;
-			}
 			switch (@event) {
 				case NewGameLoadedEvent nglEvent:
 					OnSmallSolversUpdated(nglEvent.Stats.SmallSolvers);
@@ -100,10 +104,12 @@ namespace SmileyFace799.RogueSweeper.Godot {
 					OnDefusersUpdated(duEvent.Defusers);
 					break;
 				case PowerUpDeselectedEvent:
-					if (_selectedButton != null) {
-						_selectedButton.SetPressedNoSignal(false);
-					}
-					_selectedButton = null;
+					GDThread.QueueTask(TaskPriority.UI_UPDATE, () => {
+						if (_selectedButton != null) {
+							_selectedButton.SetPressedNoSignal(false);
+						}
+						_selectedButton = null;
+					});
 					break;
 			}
 		}

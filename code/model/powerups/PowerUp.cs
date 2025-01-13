@@ -10,7 +10,7 @@ namespace SmileyFace799.RogueSweeper.model
         public static readonly PowerUp DEFUSER = new((board, affectedTiles, usePos, genData) => {
             foreach(Position p in Position.Shift(usePos, affectedTiles)) {
                 if (board.GetOrGenerateSquare(p, genData).Type.Level == TypeLevel.BAD) {
-                    board.placeSquare(p, new NumberSquare(NumberSquareType.DEFUSED_BOMB), true, false);
+                    board.PlaceSquare(p, new NumberSquare(NumberSquareType.DEFUSED_BOMB), true);
                     board.RevealSquare(p, genData);
                 }
             }

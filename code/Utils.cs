@@ -26,7 +26,7 @@ namespace SmileyFace799.RogueSweeper.Godot
             {PowerUpSquareType.DEFUSER, TileName.DEFUSER_TILE}
         }, TileName.MISSING_TEXTURE);
 
-        public static Vector2I GetAtlasCoords(ImmutableSquare square)
+        public static Vector2I GetAtlasCoords(IImmutableSquare square)
         {
             Vector2I atlasCoords;
             if (square.Flagged) {
@@ -50,7 +50,7 @@ namespace SmileyFace799.RogueSweeper.Godot
             return GetAtlasCoords((TileName) ((int) GetTileName(type) + number));
         }
         private static Vector2I GetAtlasCoords(SpecialSquareType type) => GetAtlasCoords(GetTileName(type));
-        private static Vector2I GetAtlasCoords(TileName tileName) => new((int) tileName % ATLAS_WIDTH, (int) tileName / ATLAS_WIDTH);
+        public static Vector2I GetAtlasCoords(TileName tileName) => new((int) tileName % ATLAS_WIDTH, (int) tileName / ATLAS_WIDTH);
 
         public enum TileName {
             DEFAULT_ZERO,

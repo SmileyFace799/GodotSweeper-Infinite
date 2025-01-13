@@ -47,22 +47,26 @@ namespace SmileyFace799.RogueSweeper.Godot
 		private void UpdateHoveredInfo()
 		{
 			SquareGenData genData = Game.Instance.StandardGenData;
-			_badChanceLabel.Text = Math.Clamp(genData.GetBadChance(HoveredSquare), 0, 1).ToString("P");
-			_goodChanceLabel.Text = Math.Clamp(genData.GetGoodChance(HoveredSquare), 0, 1).ToString("P");
+			GDThread.QueueTask(TaskPriority.UI_UPDATE, () => {
+				_badChanceLabel.Text = Math.Clamp(genData.GetBadChance(HoveredSquare), 0, 1).ToString("P");
+				_goodChanceLabel.Text = Math.Clamp(genData.GetGoodChance(HoveredSquare), 0, 1).ToString("P");
+			});
 		}
 
 		private void OnLivesUpdated(int lives, int livesGained)
 		{
-			_livesLabel.Text = lives.ToString();
-			_extraLivesLabel.Text = livesGained.ToString();
+			GDThread.QueueTask(TaskPriority.UI_UPDATE, () => {
+				_livesLabel.Text = lives.ToString();
+				_extraLivesLabel.Text = livesGained.ToString();
+			});
 		}
 
 		private void OnBadChanceModifierUpdated(double badChanceModifier) {
-			_badChanceModifierLabel.Text = badChanceModifier.ToString("P");
+			GDThread.QueueTask(TaskPriority.UI_UPDATE, () => _badChanceModifierLabel.Text = badChanceModifier.ToString("P"));
 			UpdateHoveredInfo();
 		}
 
-		private void OnOpenedSquaresUpdated(ulong squaresOpened) => _openedSquaresLabel.Text = squaresOpened.ToString();
+		private void OnOpenedSquaresUpdated(ulong squaresOpened) => GDThread.QueueTask(TaskPriority.UI_UPDATE, () => _openedSquaresLabel.Text = squaresOpened.ToString());
 
 		public void OnUpdateUI(IUIUpdateEvent @event)
 		{

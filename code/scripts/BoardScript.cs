@@ -1,5 +1,6 @@
 using System;
-using System.Collections.Generic;
+using System.Collections.Concurrent;
+using System.Threading.Tasks;
 using Godot;
 using SmileyFace799.RogueSweeper.events;
 using SmileyFace799.RogueSweeper.model;
@@ -71,6 +72,7 @@ namespace SmileyFace799.RogueSweeper.Godot
         {
 			if (what == NotificationPredelete) {
 				Game.Instance.RemoveReceiver(this);
+				GD.Print("Unloaded board script");
 			}
         }
 
@@ -177,14 +179,16 @@ namespace SmileyFace799.RogueSweeper.Godot
 
 		public void OnNewGameLoaded(NewGameLoadedEvent @event)
 		{
-			foreach ((long x, Dictionary<long, Square> column) in @event.Squares) {
-				foreach ((long y, ImmutableSquare square) in column) { // Cast to ImmutableSquare ensures it's not modified
-					OnSquareUpdated(new(new(x, y), square));
+			foreach ((long x, ConcurrentDictionary<long, Square> column) in @event.Squares) {
+				foreach ((long y, IImmutableSquare square) in column) { // Cast to ImmutableSquare ensures it's not modified
+					UpdateSquare(new(x, y), square, TaskPriority.SQUARE_LOADED);
 				}
 			}
 		}
 
-		public void OnSquareUpdated(SquareUpdatedEvent @event) => SetCell(0, Utils.ToVector2I(@event.Position), 0, Utils.GetAtlasCoords(@event.Square));
+		private void UpdateSquare(Position position, IImmutableSquare square, int priority) => GDThread.QueueTask(priority, () => SetCell(0, Utils.ToVector2I(position), 0, Utils.GetAtlasCoords(square)));
+
+		public void OnSquareUpdated(SquareUpdatedEvent @event) => UpdateSquare(@event.Position, @event.Square, @event.Priority);
 
 		public void OnUpdateUI(IUIUpdateEvent @event) {
 			switch (@event) {
@@ -195,8 +199,10 @@ namespace SmileyFace799.RogueSweeper.Godot
 					OnSquareUpdated(suEvent);
 					break;
 				case GameRestartedEvent:
-					GetTree().Paused = false;
-					GetTree().ReloadCurrentScene();
+					GDThread.QueueTask(TaskPriority.SCENE_CHANGE, () => {
+						GetTree().Paused = false;
+						GetTree().ReloadCurrentScene();
+					});
 					break;
 			}
 		}

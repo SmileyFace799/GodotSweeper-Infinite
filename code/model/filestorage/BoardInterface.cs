@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -92,17 +93,17 @@ namespace SmileyFace799.RogueSweeper.filestorage
 
 
 
-        private Dictionary<long, Square> BytesToColumn(ByteEnumerator bytes)
+        private ConcurrentDictionary<long, Square> BytesToColumn(ByteEnumerator bytes)
         {
             int squareCount = BitConverter.ToInt32(bytes.Next(4));
-            Dictionary<long, Square> column = new();
+            ConcurrentDictionary<long, Square> column = new();
             for (int i = 0; i < squareCount; ++i) {
-                column.Add(BitConverter.ToInt64(bytes.Next(8)), BytesToSquare(bytes));
+                column.TryAdd(BitConverter.ToInt64(bytes.Next(8)), BytesToSquare(bytes));
             }
             return column;
         }
 
-        private byte[] ColumnToBytes(Dictionary<long, Square> column)
+        private byte[] ColumnToBytes(ConcurrentDictionary<long, Square> column)
         {
             List<byte> bytes = column.SelectMany(kvp => BitConverter.GetBytes(kvp.Key).Concat(SquareToBytes(kvp.Value))).ToList();
             return BitConverter.GetBytes(column.Count()).Concat(bytes).ToArray();
@@ -113,9 +114,9 @@ namespace SmileyFace799.RogueSweeper.filestorage
         public override Board FromBytes(ByteEnumerator bytes)
         {
             int columnCount = BitConverter.ToInt32(bytes.Next(4));
-            Dictionary<long, Dictionary<long, Square>> boardSquares = new();
+            ConcurrentDictionary<long, ConcurrentDictionary<long, Square>> boardSquares = new();
             for (int i = 0; i < columnCount; ++i) {
-                boardSquares.Add(BitConverter.ToInt64(bytes.Next(8)), BytesToColumn(bytes));
+                boardSquares.TryAdd(BitConverter.ToInt64(bytes.Next(8)), BytesToColumn(bytes));
             }
             return new(boardSquares);
         }

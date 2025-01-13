@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using SmileyFace799.RogueSweeper.Threading;
 
 namespace SmileyFace799.RogueSweeper.filestorage {
 
@@ -40,9 +41,11 @@ public abstract class FileInterface {
 
 public abstract class FileInterface<T> : FileInterface {
     private readonly string _path;
+    private readonly object _lock = new();
 
     private bool _loaded;
     private T _value;
+    private readonly Atomic<bool> _isReadWriting = new(false);
 
     /// <summary>
     /// <para>The value managed by this file interface.</para>
@@ -58,6 +61,8 @@ public abstract class FileInterface<T> : FileInterface {
         _loaded = true;
         Save();
     }}
+
+    public bool IsReadWriting => _isReadWriting.Get();
 
     /// <summary>
     /// The default value to produce if there is nothing stored.
@@ -95,26 +100,34 @@ public abstract class FileInterface<T> : FileInterface {
     }
 
     private void Load() {
-        _loaded = true;
-        if (Exists(_path)) {
-            _value = FromBytes(new ByteEnumerator(File.ReadAllBytes(FullPath(_path))));
-            try {
-            } catch (Exception e) {
+        lock (_lock) {
+            _isReadWriting.Set(true);
+            _loaded = true;
+            if (Exists(_path)) {
+                _value = FromBytes(new ByteEnumerator(File.ReadAllBytes(FullPath(_path))));
+                try {
+                } catch (Exception e) {
+                    _value = Default;
+                    Console.WriteLine("Failed to load value, resorting to default. Exception: ", e);
+                }
+            } else {
                 _value = Default;
-                Console.WriteLine("Failed to load value, resorting to default. Exception: ", e);
             }
-        } else {
-            _value = Default;
+            _isReadWriting.Set(false);
         }
     }
 
     private void Save() {
-        if (!Exists(_path)) {
-            MakeDir();
-            File.Create(FullPath(_path)).Close();
+        lock (_lock) {
+            _isReadWriting.Set(true);
+            if (!Exists(_path)) {
+                MakeDir();
+                File.Create(FullPath(_path)).Close();
+            }
+            T value = Value;
+            File.WriteAllBytes(FullPath(_path), ToBytes(value));
+            _isReadWriting.Set(false);
         }
-        T value = Value;
-        File.WriteAllBytes(FullPath(_path), ToBytes(value));
     }
 
     /// <summary>
